@@ -696,7 +696,8 @@
     .lisso-dashboard.cx-dashboard .ld-greeting { grid-template-columns: minmax(0, 1fr); }
     .lisso-dashboard.cx-dashboard .ld-date { justify-content: flex-start; padding-left: 49px; }
     .lisso-dashboard.cx-dashboard .cx-hero { padding-inline: 20px; }
-    .lisso-dashboard.cx-dashboard .ld-right { display: flex; }
+    /* Stacked column: undo the tablet grid's align-items: start so cards span the full width. */
+    .lisso-dashboard.cx-dashboard .ld-right { display: flex; align-items: stretch; }
     .lisso-dashboard.cx-dashboard .cx-insight-strip { grid-template-columns: minmax(0, 1fr); }
     .lisso-dashboard.cx-dashboard .cx-insight-tile { padding: 17px 20px; }
     .lisso-dashboard.cx-dashboard .ld-low-stock-row { flex-wrap: wrap; gap: 12px; }
