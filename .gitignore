@@ -1,0 +1,9 @@
+# Secrets
+.env
+
+# Local database dump with real records (repo ships schema only)
+medicine_shop_data_backup.sql
+
+# Local editor / tool settings
+.claude/settings.local.json
+.vscode/

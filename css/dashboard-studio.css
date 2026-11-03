@@ -1,0 +1,811 @@
+/*
+ * Dashboard Studio — additive Lisso layer, no imports or script dependency.
+ * Load last; opt in with body.lisso-dashboard.cx-dashboard.
+ * Pointer coordinates accept percentages or lengths, defaulting to the centre.
+ * SVG health dashoffset and all figures remain owned by the real dashboard data.
+ */
+.lisso-dashboard.cx-dashboard {
+    --cx-ink: #292431;
+    --cx-muted: #6e6576;
+    --cx-rule: #e6dfea;
+    --cx-lilac: #eae1f6;
+    --cx-citron: #f6edc5;
+    --cx-pearl: #fffcf7;
+    --cx-glow-one: #e9ddf7;
+    --cx-glow-two: #f7edc7;
+    --cx-glow-three: #f9e6dd;
+    --cx-shadow: 0 12px 32px #44315107, 0 2px 5px #44315103;
+    --cx-ease: cubic-bezier(.2, .7, .25, 1);
+    --ld-ink: var(--cx-ink);
+    --ld-muted: var(--cx-muted);
+    --ld-rule: var(--cx-rule);
+    --ld-violet: #80709c;
+    color: var(--cx-ink);
+    background: radial-gradient(ellipse at 85% 0, var(--cx-glow-one), transparent 53%),
+        radial-gradient(ellipse at 2% 35%, var(--cx-glow-two), transparent 48%), #f6f1ed;
+    background-attachment: scroll;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Ambience only changes decorative washes, never semantic ink or chart colours. */
+.lisso-dashboard.cx-dashboard[data-wx-ambience="lilac"] {
+    --cx-glow-one: #e2d5f3;
+    --cx-glow-two: #eee6f5;
+    --cx-glow-three: #f0e1ef;
+}
+.lisso-dashboard.cx-dashboard[data-wx-ambience="solar"] {
+    --cx-glow-one: #eee1ef;
+    --cx-glow-two: #f6e7ae;
+    --cx-glow-three: #f8e2cf;
+}
+.lisso-dashboard.cx-dashboard .ld-main {
+    width: 100%;
+    max-width: 1480px;
+    min-width: 0;
+    padding: 26px 28px 60px;
+    color: var(--cx-ink);
+    font-family: Inter, sans-serif;
+}
+.lisso-dashboard.cx-dashboard .ld-main :is(a, button, input, select, summary):focus-visible {
+    outline: 3px solid #79539c;
+    outline-offset: 4px;
+}
+.lisso-dashboard.cx-dashboard .ld-main :is(button, input, select) { font-family: inherit; }
+.lisso-dashboard.cx-dashboard .ld-main :is(h1, h2, h3) { text-wrap: balance; }
+.lisso-dashboard.cx-dashboard .ld-main :is(p, dd, strong) { overflow-wrap: anywhere; }
+.lisso-dashboard.cx-dashboard .ld-greeting {
+    grid-template-columns: minmax(0, 1fr) auto;
+    min-height: 54px;
+    gap: 12px 20px;
+    padding: 0 0 14px;
+    margin-bottom: 18px;
+    border-bottom-color: #7d698c24;
+}
+.lisso-dashboard.cx-dashboard .ld-hello { min-width: 0; gap: 12px; }
+.lisso-dashboard.cx-dashboard .ld-hello h1 {
+    font-size: clamp(21px, 2vw, 27px);
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -.9px;
+    white-space: normal;
+}
+.lisso-dashboard.cx-dashboard .ld-greeting > p { display: none; }
+.lisso-dashboard.cx-dashboard .ld-avatar {
+    width: 37px;
+    height: 37px;
+    font-size: 11px;
+    color: #514065;
+    background: linear-gradient(135deg, #f7f2fb, #e0d3ee);
+    border: 1px solid #fff;
+    box-shadow: 0 2px 6px #6145790b;
+}
+.lisso-dashboard.cx-dashboard .ld-avatar-small { width: 30px; height: 30px; font-size: 9px; }
+.lisso-dashboard.cx-dashboard .ld-date { gap: 10px; flex-wrap: wrap; color: #655c6c; font-size: 11px; }
+.lisso-dashboard.cx-dashboard .cx-last-updated { color: var(--cx-muted); font-size: 10px; line-height: 1.6; }
+
+/* A compact editorial cover, not a full-viewport splash. */
+.lisso-dashboard.cx-dashboard .cx-hero {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr);
+    align-items: center;
+    gap: 12px 26px;
+    min-width: 0;
+    margin-bottom: 20px;
+    padding: 22px 32px;
+    border: 1px solid #ffffffd9;
+    border-radius: 32px;
+    background: radial-gradient(ellipse at 95% 20%, var(--cx-glow-one), transparent 60%),
+        linear-gradient(115deg, #fffcf9e8 15%, #fffdf8b3 65%, #fbf5e4a3);
+    box-shadow: inset 0 1px 0 #fff, var(--cx-shadow);
+}
+.lisso-dashboard.cx-dashboard .cx-hero::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+    width: min(36%, 210px);
+    aspect-ratio: 1;
+    right: 11%;
+    bottom: 7%;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--cx-glow-two), transparent 70%);
+    opacity: .8;
+    animation: cx-studio-pearl-drift 24s ease-in-out infinite alternate;
+}
+.lisso-dashboard.cx-dashboard .cx-hero > * { min-width: 0; }
+.lisso-dashboard.cx-dashboard .cx-hero-copy { position: relative; z-index: 2; padding: 8px 0; }
+.lisso-dashboard.cx-dashboard :is(.cx-kicker, .cx-section-kicker) {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: #6c587b;
+    font-size: 10px;
+    line-height: 1.6;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+}
+.lisso-dashboard.cx-dashboard .cx-kicker { margin-bottom: 16px; }
+.lisso-dashboard.cx-dashboard .cx-kicker::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #8a729c;
+    box-shadow: 0 0 0 4px #a78cbd15;
+}
+.lisso-dashboard.cx-dashboard .ld-main .cx-hero-title {
+    color: var(--cx-ink);
+    font-size: clamp(46px, 5.1vw, 76px);
+    font-weight: 450;
+    line-height: .99;
+    letter-spacing: -.065em;
+    margin: 0;
+}
+.lisso-dashboard.cx-dashboard .cx-gradient-text {
+    color: #785b8d;
+    background-image: linear-gradient(105deg, #58426d, #8b6391 36%, #72598c 60%, #58426d);
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: cx-studio-text-tide 16s ease-in-out infinite alternate;
+}
+.lisso-dashboard.cx-dashboard .ld-main .cx-hero-description {
+    max-width: 420px;
+    margin: 19px 0 21px;
+    color: #6c6073;
+    font-size: 12px;
+    line-height: 1.85;
+}
+.lisso-dashboard.cx-dashboard .cx-hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; }
+.lisso-dashboard.cx-dashboard .ld-main :is(.cx-primary-action, .cx-secondary-action, .cx-command-link) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-width: 0;
+    max-width: 100%;
+    min-height: 44px;
+    padding: 11px 18px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform .24s var(--cx-ease), background-color .24s ease, border-color .24s ease;
+}
+.lisso-dashboard.cx-dashboard .ld-main .cx-primary-action {
+    color: #fff;
+    background: #292431;
+    border-color: #292431;
+    box-shadow: inset 0 1px #ffffff20, 0 4px 9px #33233f12;
+}
+.lisso-dashboard.cx-dashboard .ld-main .cx-secondary-action { background: #fffaf6; color: #403348; border-color: #dcd1e2; }
+.lisso-dashboard.cx-dashboard .ld-main .cx-command-link { background: transparent; color: #685571; padding-inline: 10px; }
+.lisso-dashboard.cx-dashboard .cx-command-link kbd {
+    border: 1px solid #d9cce0;
+    border-radius: 5px;
+    padding: 2px 4px;
+    background: #fffcfa;
+    color: #685571;
+    font: inherit;
+    font-size: 9px;
+}
+.lisso-dashboard.cx-dashboard .cx-hero-index {
+    position: absolute;
+    top: 18px;
+    right: 24px;
+    color: #7a6c82;
+    font-size: 9px;
+    line-height: 1.5;
+    letter-spacing: .12em;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Orbit shapes never obstruct health figures or intercept input. */
+.lisso-dashboard.cx-dashboard .cx-orbital-scene {
+    position: relative;
+    isolation: isolate;
+    min-width: 0;
+    width: 100%;
+    height: 310px;
+    /* Rotating ellipses stay local even at 320px; no interactive content here. */
+    overflow: hidden;
+    overflow: clip;
+}
+.lisso-dashboard.cx-dashboard .cx-orbit-ring {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    margin: auto;
+    max-width: 96%;
+    border: 1px solid #a48abd3b;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: cx-studio-orbit 50s linear infinite;
+}
+.lisso-dashboard.cx-dashboard .cx-orbit-ring.ring-one { width: 286px; height: 244px; }
+.lisso-dashboard.cx-dashboard .cx-orbit-ring.ring-two {
+    width: 254px;
+    height: 292px;
+    border-color: #b79ca32f;
+    animation-duration: 70s;
+    animation-direction: reverse;
+    animation-delay: -19s;
+}
+.lisso-dashboard.cx-dashboard .cx-orbit-ring.ring-three {
+    width: 318px;
+    height: 210px;
+    border-color: #fff9;
+    animation-duration: 90s;
+    animation-delay: -37s;
+}
+.lisso-dashboard.cx-dashboard .cx-orbit-ring.ring-one::before {
+    content: '';
+    position: absolute;
+    top: 13%;
+    left: 13%;
+    width: 7px;
+    height: 7px;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    background: #b29fc6;
+    box-shadow: 0 0 0 4px #eee5f56b;
+}
+.lisso-dashboard.cx-dashboard .cx-orbit-core {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 198px;
+    height: 198px;
+    max-width: 75%;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 18%, #fffdfd 5%, #f8f3fc 48%, #e9e0f2 100%);
+    box-shadow: inset 0 2px 2px #fff, inset 0 -8px 20px #b8a0ce14,
+        0 16px 32px #76528913, 0 0 0 8px #ffffff30;
+}
+.lisso-dashboard.cx-dashboard .cx-health-ring {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    display: block;
+    width: 160px;
+    height: 160px;
+    max-width: 100%;
+    overflow: visible;
+    transform: rotate(-90deg);
+    pointer-events: none;
+}
+.lisso-dashboard.cx-dashboard .cx-health-ring circle { fill: none; stroke-width: 3; }
+.lisso-dashboard.cx-dashboard .cx-health-ring circle:first-of-type { stroke: #e4d9ec; }
+.lisso-dashboard.cx-dashboard .cx-health-ring circle:last-of-type {
+    stroke: #8b70a8;
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-dasharray: 427.26;
+    /* Do not set stroke-dashoffset: server-rendered stock health is authoritative. */
+}
+.lisso-dashboard.cx-dashboard .cx-orbit-center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+    padding: 30px;
+    text-align: center;
+}
+.lisso-dashboard.cx-dashboard .cx-orbit-center :is(small, span) { color: #756180; font-size: 9px; line-height: 1.5; }
+.lisso-dashboard.cx-dashboard .cx-orbit-center > :first-child { font-size: 8px; font-weight: 600; letter-spacing: .15em; }
+.lisso-dashboard.cx-dashboard .cx-orbit-center strong {
+    color: #42314e;
+    font-size: 43px;
+    line-height: 1.1;
+    font-weight: 450;
+    letter-spacing: -2px;
+    font-variant-numeric: tabular-nums;
+}
+.lisso-dashboard.cx-dashboard .cx-orbit-label {
+    position: absolute;
+    z-index: 2;
+    width: max-content;
+    max-width: 48%;
+    padding: 11px 14px;
+    border: 1px solid #fff;
+    border-radius: 17px;
+    color: #685572;
+    background: #fffcf9f2;
+    box-shadow: 0 8px 22px #6f4c8210, inset 0 1px #fff;
+    font-size: 9px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+.lisso-dashboard.cx-dashboard .cx-orbit-label.label-sales { top: 53px; left: 0; }
+.lisso-dashboard.cx-dashboard .cx-orbit-label.label-stock { right: 0; bottom: 53px; background: #faf5dff5; }
+.lisso-dashboard.cx-dashboard .cx-floating-value {
+    display: block;
+    color: #3e3047;
+    font-size: clamp(13px, 1.3vw, 19px);
+    font-weight: 550;
+    line-height: 1.5;
+    letter-spacing: -.5px;
+    font-variant-numeric: tabular-nums;
+}
+.lisso-dashboard.cx-dashboard .cx-orbit-caption {
+    position: absolute;
+    inset: auto 0 2px;
+    text-align: center;
+    color: #756480;
+    font-size: 9px;
+    line-height: 1.5;
+    letter-spacing: .035em;
+}
+.lisso-dashboard.cx-dashboard :is(.cx-orbit-star, .cx-orbit-star4) {
+    position: absolute;
+    top: 30px;
+    right: 24%;
+    width: 22px;
+    height: 22px;
+    background: #aa8cbb;
+    clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+    pointer-events: none;
+    animation: cx-studio-star-float 9s ease-in-out infinite alternate;
+}
+
+/* Numbers are always visible. No reveal observer is required for this layer. */
+.lisso-dashboard.cx-dashboard .cx-reveal { opacity: 1; visibility: visible; }
+.lisso-dashboard.cx-dashboard .cx-print-summary { display: none; }
+.lisso-dashboard.cx-dashboard .cx-reveal.is-entering { animation: cx-studio-arrive .65s var(--cx-ease) both; }
+.lisso-dashboard.cx-dashboard .cx-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 28px;
+}
+.lisso-dashboard.cx-dashboard .cx-kpi-card {
+    position: relative;
+    isolation: isolate;
+    min-width: 0;
+    min-height: 120px;
+    padding: 19px 21px;
+    border: 1px solid #fff;
+    border-radius: 23px;
+    background: #fffdf9ed;
+    box-shadow: inset 0 1px #fff, var(--cx-shadow);
+}
+.lisso-dashboard.cx-dashboard .cx-kpi-card.is-lilac { background: linear-gradient(125deg, #f6f0fd, #ece3f6); }
+.lisso-dashboard.cx-dashboard .cx-kpi-card.is-yellow { background: linear-gradient(125deg, #fdf8e6, #f5edc8); }
+.lisso-dashboard.cx-dashboard .cx-kpi-card.is-mint { background: linear-gradient(125deg, #f3f9f2, #e4efe5); }
+.lisso-dashboard.cx-dashboard .cx-kpi-label {
+    display: block;
+    padding-right: 40px;
+    color: #6d5f77;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1.6;
+}
+.lisso-dashboard.cx-dashboard .cx-kpi-value {
+    display: block;
+    margin: 9px 0 5px;
+    color: #302535;
+    font-size: clamp(21px, 2.2vw, 32px);
+    font-weight: 450;
+    line-height: 1.2;
+    letter-spacing: -1.1px;
+    font-variant-numeric: tabular-nums;
+    overflow-wrap: anywhere;
+}
+.lisso-dashboard.cx-dashboard .cx-kpi-foot { display: block; color: #6b5f72; font-size: 10px; line-height: 1.6; }
+.lisso-dashboard.cx-dashboard .cx-kpi-card > .cx-kpi-icon {
+    position: absolute;
+    top: 16px;
+    right: 17px;
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid #ffffffb3;
+    border-radius: 50%;
+    color: #6e5485;
+    background: #eee4f4;
+    font-size: 12px;
+}
+.lisso-dashboard.cx-dashboard .cx-kpi-card.is-yellow .cx-kpi-icon { color: #76602e; background: #f3e4aa; }
+.lisso-dashboard.cx-dashboard .cx-kpi-card.is-mint .cx-kpi-icon { color: #48654f; background: #d8e8da; }
+.lisso-dashboard.cx-dashboard .cx-mini-spark { display: block; width: 90px; max-width: 100%; height: 28px; color: #85709d; }
+.lisso-dashboard.cx-dashboard .cx-mini-spark path { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+
+/* Preserve the Lisso three-column composition with quieter, tangible surfaces. */
+.lisso-dashboard.cx-dashboard .ld-grid {
+    grid-template-columns: minmax(0, .95fr) minmax(0, 1.35fr) minmax(0, .95fr);
+    gap: 22px;
+    margin-bottom: 25px;
+}
+.lisso-dashboard.cx-dashboard .ld-column { gap: 20px; }
+.lisso-dashboard.cx-dashboard .ld-right { display: flex; grid-column: auto; }
+.lisso-dashboard.cx-dashboard .ld-card {
+    position: relative;
+    isolation: isolate;
+    padding: 24px;
+    border: 1px solid #fffc;
+    border-radius: 26px;
+    background: #fffdfbf5;
+    box-shadow: inset 0 1px #fff, var(--cx-shadow);
+}
+.lisso-dashboard.cx-dashboard :is(.ld-card, .cx-kpi-card) > * { position: relative; z-index: 1; }
+.lisso-dashboard.cx-dashboard .ld-card-heading { flex-wrap: wrap; gap: 10px; }
+.lisso-dashboard.cx-dashboard .ld-main .ld-card h2 { font-size: 19px; font-weight: 500; letter-spacing: -.7px; }
+.lisso-dashboard.cx-dashboard .ld-note { font-size: 11px; color: var(--cx-muted); }
+.lisso-dashboard.cx-dashboard .ld-pill { padding: 6px 10px; font-size: 10px; }
+.lisso-dashboard.cx-dashboard .ld-pill-violet { background: #e6daf2; color: #604677; }
+.lisso-dashboard.cx-dashboard .ld-pill-mint { background: #dceee2; color: #315b43; }
+.lisso-dashboard.cx-dashboard .ld-pill-yellow { background: #f5e9b8; color: #6a5426; }
+.lisso-dashboard.cx-dashboard .ld-pill-coral { background: #f5ded5; color: #7d443b; }
+.lisso-dashboard.cx-dashboard .ld-health.cx-insight-panel {
+    position: relative;
+    padding: 25px 23px;
+    border: 1px solid #fff9;
+    border-radius: 26px;
+    background: linear-gradient(145deg, #fff8f1e8, #f4e6e0de);
+    box-shadow: inset 0 1px #fff;
+}
+.lisso-dashboard.cx-dashboard .cx-insight-panel .cx-section-kicker { margin-bottom: 18px; color: #7a5b64; }
+.lisso-dashboard.cx-dashboard .ld-main .cx-insight-panel h2 {
+    max-width: 290px;
+    font-size: clamp(26px, 2.5vw, 35px);
+    font-weight: 450;
+    line-height: 1.12;
+    letter-spacing: -1.4px;
+}
+.lisso-dashboard.cx-dashboard .cx-insight-list { display: grid; gap: 13px; list-style: none; padding: 0; margin: 23px 0 0; }
+.lisso-dashboard.cx-dashboard .cx-insight-list li { display: flex; align-items: baseline; gap: 9px; color: #6e5663; font-size: 11px; line-height: 1.7; }
+.lisso-dashboard.cx-dashboard .cx-insight-list li::before { content: ''; flex: 0 0 5px; height: 5px; border-radius: 50%; background: #ad8c9e; }
+.lisso-dashboard.cx-dashboard .cx-pulse-number { color: #614569; font-weight: 650; font-variant-numeric: tabular-nums; }
+.lisso-dashboard.cx-dashboard .ld-activity {
+    background: linear-gradient(135deg, #fcf0bf 0, #f6e4a3 70%, #f0dfa0);
+    border-color: #fff9;
+    box-shadow: inset 0 1px 0 #fff9, inset 0 -2px 0 #bba35b15, var(--cx-shadow);
+}
+.lisso-dashboard.cx-dashboard .ld-card-intro { max-width: 230px; color: #6c5b36; }
+.lisso-dashboard.cx-dashboard .ld-counts { margin: 25px 0 23px; gap: 9px; }
+.lisso-dashboard.cx-dashboard .ld-counts dt { font-size: 10px; color: #6e5a30; }
+.lisso-dashboard.cx-dashboard .ld-counts dd { font-size: clamp(30px, 3vw, 42px); letter-spacing: -1.8px; font-variant-numeric: tabular-nums; }
+.lisso-dashboard.cx-dashboard .ld-card-footer { gap: 10px; flex-wrap: wrap; border-top-color: #89739b24; }
+.lisso-dashboard.cx-dashboard .ld-round-link { width: 36px; height: 36px; background: #fffaf0; color: #52432f; }
+.lisso-dashboard.cx-dashboard .ld-today-dot { background: #9677aa; }
+.lisso-dashboard.cx-dashboard .ld-today strong { font-size: 25px; font-variant-numeric: tabular-nums; }
+.lisso-dashboard.cx-dashboard .ld-snapshot {
+    color: #fff9ff;
+    background: radial-gradient(ellipse at 100% 0, #56425f 0, transparent 67%),
+        linear-gradient(140deg, #302b40, #292535);
+    border: 1px solid #786782;
+    box-shadow: inset 0 1px #d2b7e333, inset 0 -1px #17132140, 0 14px 32px #34233f16;
+}
+.lisso-dashboard.cx-dashboard .ld-main .ld-snapshot h2 { color: #fff7ff; }
+.lisso-dashboard.cx-dashboard .ld-snapshot .ld-eyebrow { color: #d2c3dc; margin-top: 27px !important; }
+.lisso-dashboard.cx-dashboard .ld-snapshot .ld-balance { color: #fffafd; font-size: clamp(27px, 2.8vw, 41px); font-weight: 450; line-height: 1.3; letter-spacing: -1.4px; font-variant-numeric: tabular-nums; }
+.lisso-dashboard.cx-dashboard .ld-snapshot .ld-facts { gap: 14px 10px; }
+.lisso-dashboard.cx-dashboard .ld-snapshot .ld-facts dt { color: #d4c7df; line-height: 1.6; }
+.lisso-dashboard.cx-dashboard .ld-snapshot .ld-facts dd { color: #fff4ff; font-size: 12px; font-variant-numeric: tabular-nums; }
+.lisso-dashboard.cx-dashboard .ld-snapshot .ld-card-footer { border-color: #d9c7e52e; }
+.lisso-dashboard.cx-dashboard .ld-main .ld-snapshot .ld-subtle-link { color: #e1d2ea; }
+.lisso-dashboard.cx-dashboard .ld-main .ld-snapshot .ld-black-link { color: #31283d; background: #eee1fa; padding: 11px 15px; }
+.lisso-dashboard.cx-dashboard .ld-snapshot .ld-pill-mint { color: #30503d; background: #dceee0; }
+.lisso-dashboard.cx-dashboard .ld-stock-card { transform: none; margin: 0; }
+.lisso-dashboard.cx-dashboard .ld-stock-summary > strong { color: #6e5483; font-size: 55px; font-variant-numeric: tabular-nums; }
+.lisso-dashboard.cx-dashboard .ld-stock-summary > p { color: #6d6077; }
+.lisso-dashboard.cx-dashboard .ld-chart-card { padding: 24px 20px 18px; background: #fffefd; border-color: #fff; }
+.lisso-dashboard.cx-dashboard .cx-chart-controls { display: inline-flex; flex-wrap: wrap; gap: 3px; padding: 4px; border: 1px solid #e8e0ec; border-radius: 999px; background: #f5f0f7; }
+.lisso-dashboard.cx-dashboard .cx-chart-controls [data-chart-months] {
+    min-width: 39px;
+    min-height: 34px;
+    padding: 6px 10px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: #6b577b;
+    font-size: 10px;
+    line-height: 1.5;
+    cursor: pointer;
+}
+.lisso-dashboard.cx-dashboard .cx-chart-controls [data-chart-months][aria-pressed="true"] { background: #342a40; color: #fff; box-shadow: 0 2px 4px #36233f16; }
+.lisso-dashboard.cx-dashboard .cx-chart-summary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 16px 0 10px; }
+.lisso-dashboard.cx-dashboard .cx-chart-summary > * { min-width: 0; }
+.lisso-dashboard.cx-dashboard .cx-chart-summary :is(span, dt, small) { display: block; color: #706078; font-size: 10px; line-height: 1.6; }
+.lisso-dashboard.cx-dashboard .cx-chart-summary :is(strong, dd) { display: block; margin: 5px 0 0; color: #44314e; font-size: 16px; line-height: 1.5; letter-spacing: -.4px; font-weight: 500; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.lisso-dashboard.cx-dashboard .cx-chart-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; color: #6d5d76; font-size: 10px; line-height: 1.6; }
+.lisso-dashboard.cx-dashboard .ld-chart-caption { color: #74657c; line-height: 1.7; }
+.lisso-dashboard.cx-dashboard .ld-trend-data { color: #6d5d76; }
+.lisso-dashboard.cx-dashboard .ld-quick-actions { padding: 3px 5px; }
+.lisso-dashboard.cx-dashboard .ld-actions-heading h2 { font-size: 25px; letter-spacing: -1px; }
+.lisso-dashboard.cx-dashboard .ld-action-row { border-color: #8e759c30; padding: 17px 0; color: #3b2e45; }
+.lisso-dashboard.cx-dashboard .ld-action-row > span:not(.ld-action-icon):not(.ld-action-arrow) { min-width: 0; }
+.lisso-dashboard.cx-dashboard .ld-action-row small { color: #71617a; line-height: 1.6; }
+.lisso-dashboard.cx-dashboard .ld-action-icon { border: 1px solid #fff8; border-radius: 12px; }
+.lisso-dashboard.cx-dashboard .ld-action-arrow { color: #8d749b; }
+.lisso-dashboard.cx-dashboard .ld-supplier-balance { background: linear-gradient(140deg, #f2eafa, #e4d9f0); border-color: #fff9; }
+.lisso-dashboard.cx-dashboard .ld-supplier-balance p { color: #6f5882; line-height: 1.7; }
+.lisso-dashboard.cx-dashboard .ld-supplier-amount { color: #4f3864; font-size: clamp(26px, 2.4vw, 35px); font-variant-numeric: tabular-nums; }
+.lisso-dashboard.cx-dashboard .ld-abstract { height: 69px; margin: 18px 0; transform: none; opacity: .7; }
+.lisso-dashboard.cx-dashboard .ld-abstract span { background: #b39ac9; }
+.lisso-dashboard.cx-dashboard .ld-abstract span:nth-child(2n) { background: #c1abd4; }
+.lisso-dashboard.cx-dashboard .ld-abstract span:nth-child(3n) { background: #9d82b9; }
+.lisso-dashboard.cx-dashboard .ld-main .ld-lavender-link { background: #fffbffcf; color: #5b3e74; min-height: 43px; }
+.lisso-dashboard.cx-dashboard .ld-supplier-row { gap: 10px; color: #51405d; border-bottom-color: #9d87aa30; line-height: 1.7; }
+.lisso-dashboard.cx-dashboard .ld-supplier-row > span { min-width: 0; }
+.lisso-dashboard.cx-dashboard .ld-supplier-row strong { max-width: 55%; white-space: normal; text-align: right; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+
+/* Table controls and overflow belong inside their cards, not the document. */
+.lisso-dashboard.cx-dashboard .cx-table-toolbar { display: grid; grid-template-columns: minmax(0, 1fr) minmax(180px, auto); align-items: center; gap: 12px; margin: 0 0 16px; }
+.lisso-dashboard.cx-dashboard .cx-search-field { display: flex; align-items: center; gap: 11px; min-width: 0; padding: 0 14px; background: #fcf9fd; border: 1px solid #e6ddea; border-radius: 13px; color: #8b7499; }
+.lisso-dashboard.cx-dashboard .cx-search-field :is(i, svg) { flex-shrink: 0; width: 15px; }
+.lisso-dashboard.cx-dashboard .cx-search-field input {
+    width: 100%;
+    min-width: 0;
+    min-height: 44px;
+    border: 0;
+    border-radius: 10px;
+    box-shadow: none;
+    padding: 11px 0;
+    background: transparent;
+    color: #3f2f49;
+    font-size: 12px;
+    line-height: 1.5;
+}
+.lisso-dashboard.cx-dashboard .cx-search-field input::placeholder { color: #81708c; opacity: 1; }
+.lisso-dashboard.cx-dashboard .cx-search-field:focus-within { border-color: #9674af; box-shadow: 0 0 0 3px #9674af18; }
+.lisso-dashboard.cx-dashboard .cx-sort-field { display: flex; align-items: center; gap: 10px; min-width: 0; color: #715d80; font-size: 11px; }
+.lisso-dashboard.cx-dashboard .cx-sort-field label { flex-shrink: 0; margin: 0; }
+.lisso-dashboard.cx-dashboard .cx-sort-field select { width: 100%; min-width: 0; min-height: 44px; border: 1px solid #e0d5e7; border-radius: 13px; background-color: #fffdfd; color: #54405f; padding: 9px 27px 9px 11px; font-size: 11px; line-height: 1.5; }
+.lisso-dashboard.cx-dashboard :is(.ld-transactions, .ld-low-stock) { margin-top: 22px; }
+.lisso-dashboard.cx-dashboard .ld-transactions-heading h2 { font-size: 24px; }
+.lisso-dashboard.cx-dashboard .ld-filter-pills .filter-pill { min-height: 38px; color: #6d557d; background: #fffafc; border-color: #e3d8e9; }
+.lisso-dashboard.cx-dashboard .ld-filter-pills .filter-pill:is(.active, [aria-pressed="true"]) { background: #342a40; color: #fff; border-color: #342a40; }
+.lisso-dashboard.cx-dashboard .ld-table-scroll { min-width: 0; max-width: 100%; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin; scrollbar-color: #d4c4de #f7f2fa; }
+.lisso-dashboard.cx-dashboard .ld-data-table { width: 100%; color: #493751; font-size: 12px; line-height: 1.6; }
+.lisso-dashboard.cx-dashboard .ld-data-table thead th { color: #796684; background: #f9f5fb; font-size: 10px; font-weight: 500; }
+.lisso-dashboard.cx-dashboard .ld-data-table :is(th, td) { padding: 14px 12px; border-bottom-color: #eee6f2; }
+.lisso-dashboard.cx-dashboard .ld-data-table td { overflow-wrap: anywhere; }
+.lisso-dashboard.cx-dashboard .ld-data-table .ld-align-right { color: #3a2944; font-variant-numeric: tabular-nums; }
+.lisso-dashboard.cx-dashboard .ld-transaction-table { min-width: 720px; }
+.lisso-dashboard.cx-dashboard .ld-transaction-table td { padding-block: 18px; }
+.lisso-dashboard.cx-dashboard .ld-data-table tbody tr:hover { background: #f8f3fc; }
+.lisso-dashboard.cx-dashboard .ld-data-table tbody tr:hover > :first-child { box-shadow: inset 3px 0 #ad8cc6; }
+.lisso-dashboard.cx-dashboard .ld-trend-data .ld-data-table { min-width: 0; }
+.lisso-dashboard.cx-dashboard .ld-trend-data .ld-data-table :is(th, td) { overflow-wrap: anywhere; }
+.lisso-dashboard.cx-dashboard .ld-main .ld-bill-link { color: #80608f; min-width: 32px; min-height: 36px; align-items: center; justify-content: center; border-radius: 10px; }
+.lisso-dashboard.cx-dashboard .ld-low-stock-row { border-color: #e7ddec; font-size: 12px; }
+.lisso-dashboard.cx-dashboard .ld-low-stock-row > div { min-width: 0; }
+.lisso-dashboard.cx-dashboard .ld-low-stock-row a { overflow-wrap: anywhere; }
+.lisso-dashboard.cx-dashboard .ld-transaction-links { flex-wrap: wrap; gap: 12px 24px; }
+.lisso-dashboard.cx-dashboard .cx-insight-strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: 25px 0; }
+.lisso-dashboard.cx-dashboard .cx-insight-tile { min-width: 0; padding: 19px 21px; border: 1px solid #fff; border-radius: 21px; background: #fffcf9bd; box-shadow: inset 0 1px #fff; }
+.lisso-dashboard.cx-dashboard .cx-insight-tile :is(label, dt, .cx-insight-label) { display: block; color: #76627f; font-size: 10px; line-height: 1.6; }
+.lisso-dashboard.cx-dashboard .cx-insight-tile :is(strong, dd, .cx-insight-value) { display: block; margin: 8px 0 5px; color: #4b3457; font-size: 22px; font-weight: 450; line-height: 1.4; letter-spacing: -.6px; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.lisso-dashboard.cx-dashboard .cx-insight-tile :is(p, small, .cx-insight-note) { color: #77667f; font-size: 10px; line-height: 1.8; }
+.lisso-dashboard.cx-dashboard .cx-dashboard-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 22px; margin-top: 28px; padding: 20px 0 0; border-top: 1px solid #9a83a32e; }
+.lisso-dashboard.cx-dashboard .cx-dashboard-footer :is(p, small) { max-width: 560px; color: #796982; font-size: 10px; line-height: 1.8; }
+.lisso-dashboard.cx-dashboard .cx-section-kicker { margin-bottom: 13px; }
+
+/* Spotlight is a low-alpha, clipped paint layer: no blur, no JS layout work.
+ * Direct children sit above it; input focus outlines remain unobstructed.
+ * No card transforms, so a caller can use its own pointer-driven variables.
+ */
+.lisso-dashboard.cx-dashboard :is(.ld-card, .cx-kpi-card)::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(220px circle at var(--cx-pointer-x, 50%) var(--cx-pointer-y, 50%), #b59bd116, transparent 74%);
+    box-shadow: inset 0 0 0 1px #b19ac329;
+}
+.lisso-dashboard.cx-dashboard .ld-snapshot::after { background: radial-gradient(220px circle at var(--cx-pointer-x, 50%) var(--cx-pointer-y, 50%), #ebd0ff12, transparent 74%); box-shadow: inset 0 0 0 1px #f1d6ff26; }
+@media (hover: hover) and (pointer: fine) {
+    .lisso-dashboard.cx-dashboard :is(.ld-card, .cx-kpi-card)::after { transition: opacity .35s ease; }
+    .lisso-dashboard.cx-dashboard :is(.ld-card, .cx-kpi-card):hover::after { opacity: 1; }
+    .lisso-dashboard.cx-dashboard .ld-main :is(.cx-primary-action, .cx-secondary-action):hover { transform: translateY(-2px); text-decoration: none; }
+    .lisso-dashboard.cx-dashboard .ld-main .cx-primary-action:hover { background: #45354f; border-color: #45354f; }
+    .lisso-dashboard.cx-dashboard .ld-main .cx-secondary-action:hover { background: #f4ecfa; border-color: #baa3c9; }
+    .lisso-dashboard.cx-dashboard .ld-main .cx-command-link:hover { background: #ebdff44d; text-decoration: none; }
+    .lisso-dashboard.cx-dashboard :is(.ld-action-arrow, .cx-primary-action > i, .cx-primary-action > svg, .cx-primary-action > [aria-hidden="true"], .cx-secondary-action > [aria-hidden="true"], .ld-black-link > span, .ld-lavender-link > span) { transition: transform .25s var(--cx-ease); }
+    .lisso-dashboard.cx-dashboard .ld-action-row:hover .ld-action-arrow,
+    .lisso-dashboard.cx-dashboard :is(.cx-primary-action, .cx-secondary-action, .ld-black-link, .ld-lavender-link):hover > [aria-hidden="true"] { transform: translate(2px, -2px); }
+    .lisso-dashboard.cx-dashboard .ld-main :is(.ld-subtle-link, .ld-text-link, .cx-command-link) {
+        background-image: linear-gradient(currentColor, currentColor);
+        background-position: 0 100%;
+        background-repeat: no-repeat;
+        background-size: 0 1px;
+        transition: background-size .28s var(--cx-ease);
+    }
+    .lisso-dashboard.cx-dashboard .ld-main :is(.ld-subtle-link, .ld-text-link, .cx-command-link):hover { background-size: 100% 1px; text-decoration: none; }
+    .lisso-dashboard.cx-dashboard .ld-action-row:hover { color: #654377; text-decoration: none; }
+    .lisso-dashboard.cx-dashboard .cx-chart-controls [data-chart-months]:not([aria-pressed="true"]):hover { background: #e9ddf1; }
+    .lisso-dashboard.cx-dashboard .ld-main .ld-bill-link:hover { background: #eee3f5; text-decoration: none; }
+}
+
+@keyframes cx-studio-orbit { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes cx-studio-star-float { from { transform: translateY(0) rotate(-8deg); } to { transform: translateY(7px) rotate(12deg); } }
+@keyframes cx-studio-pearl-drift { from { transform: translate(-5px, 0); } to { transform: translate(12px, -10px); } }
+@keyframes cx-studio-text-tide { from { background-position: 0 50%; } to { background-position: 100% 50%; } }
+@keyframes cx-studio-arrive { from { transform: translateY(10px); } to { transform: translateY(0); } }
+
+@media (min-width: 1440px) {
+    .lisso-dashboard.cx-dashboard .ld-main { padding-inline: 34px; }
+    .lisso-dashboard.cx-dashboard .ld-grid { gap: 26px; }
+    .lisso-dashboard.cx-dashboard .cx-hero { padding-inline: 38px; }
+}
+@media (max-width: 1199px) {
+    .lisso-dashboard.cx-dashboard .ld-grid { grid-template-columns: minmax(0, .95fr) minmax(0, 1.35fr); }
+    .lisso-dashboard.cx-dashboard .ld-right { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .lisso-dashboard.cx-dashboard .ld-suppliers { grid-column: 1 / -1; }
+}
+@media (max-width: 1024px) {
+    .lisso-dashboard.cx-dashboard .ld-main { padding: 24px 16px 48px; }
+    .lisso-dashboard.cx-dashboard .cx-hero { gap: 16px; padding: 22px; }
+    .lisso-dashboard.cx-dashboard .cx-hero-title { overflow-wrap: anywhere; }
+    .lisso-dashboard.cx-dashboard .ld-main .cx-hero-title { font-size: clamp(43px, 5.8vw, 61px); }
+    .lisso-dashboard.cx-dashboard .cx-orbit-core { width: 182px; height: 182px; }
+    .lisso-dashboard.cx-dashboard .cx-orbit-label { padding: 9px 11px; max-width: 52%; }
+    .lisso-dashboard.cx-dashboard .cx-kpi-grid { gap: 10px; }
+    .lisso-dashboard.cx-dashboard .cx-kpi-card { padding: 17px 15px; }
+    .lisso-dashboard.cx-dashboard .cx-kpi-value { font-size: 23px; }
+    .lisso-dashboard.cx-dashboard .ld-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 768px) {
+    .lisso-dashboard.cx-dashboard .ld-main { padding: 20px 8px 42px; }
+    .lisso-dashboard.cx-dashboard .ld-greeting { gap: 10px; margin-bottom: 15px; }
+    .lisso-dashboard.cx-dashboard .ld-hello h1 { font-size: 22px; }
+    .lisso-dashboard.cx-dashboard .ld-date { font-size: 10px; }
+    .lisso-dashboard.cx-dashboard .ld-date .ld-avatar { display: none; }
+    .lisso-dashboard.cx-dashboard .cx-hero { grid-template-columns: minmax(0, 1fr); gap: 8px; padding: 30px 24px 20px; border-radius: 27px; }
+    .lisso-dashboard.cx-dashboard .cx-hero-copy { padding-top: 10px; }
+    .lisso-dashboard.cx-dashboard .cx-hero-index { top: 13px; right: 20px; font-size: 8px; }
+    .lisso-dashboard.cx-dashboard .ld-main .cx-hero-title { font-size: clamp(46px, 8.8vw, 67px); }
+    .lisso-dashboard.cx-dashboard .cx-orbital-scene { width: min(100%, 400px); height: 270px; margin: 0 auto; }
+    .lisso-dashboard.cx-dashboard .cx-orbit-ring.ring-two { height: 258px; }
+    .lisso-dashboard.cx-dashboard .cx-orbit-caption { bottom: 0; }
+    .lisso-dashboard.cx-dashboard .cx-orbit-label.label-sales { top: 35px; }
+    .lisso-dashboard.cx-dashboard .cx-orbit-label.label-stock { bottom: 37px; }
+    .lisso-dashboard.cx-dashboard .cx-kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 22px; }
+    .lisso-dashboard.cx-dashboard .cx-kpi-card { min-height: 120px; padding: 18px; }
+    .lisso-dashboard.cx-dashboard .cx-kpi-value { font-size: 26px; }
+    .lisso-dashboard.cx-dashboard .ld-grid { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+    .lisso-dashboard.cx-dashboard .ld-right { grid-column: auto; }
+    .lisso-dashboard.cx-dashboard .ld-card { padding: 22px; }
+    .lisso-dashboard.cx-dashboard .ld-main .cx-insight-panel h2 { max-width: 380px; font-size: 32px; }
+    .lisso-dashboard.cx-dashboard .cx-insight-strip { gap: 10px; }
+    .lisso-dashboard.cx-dashboard .cx-insight-tile { padding: 16px; }
+    .lisso-dashboard.cx-dashboard .cx-table-toolbar { grid-template-columns: minmax(0, 1fr); }
+    .lisso-dashboard.cx-dashboard .cx-sort-field { justify-self: end; max-width: 100%; }
+    .lisso-dashboard.cx-dashboard .cx-search-field input { font-size: 16px; }
+    .lisso-dashboard.cx-dashboard .cx-sort-field select { font-size: 16px; }
+}
+@media (max-width: 540px) {
+    .lisso-dashboard.cx-dashboard .ld-greeting { grid-template-columns: minmax(0, 1fr); }
+    .lisso-dashboard.cx-dashboard .ld-date { justify-content: flex-start; padding-left: 49px; }
+    .lisso-dashboard.cx-dashboard .cx-hero { padding-inline: 20px; }
+    .lisso-dashboard.cx-dashboard .ld-right { display: flex; }
+    .lisso-dashboard.cx-dashboard .cx-insight-strip { grid-template-columns: minmax(0, 1fr); }
+    .lisso-dashboard.cx-dashboard .cx-insight-tile { padding: 17px 20px; }
+    .lisso-dashboard.cx-dashboard .ld-low-stock-row { flex-wrap: wrap; gap: 12px; }
+    .lisso-dashboard.cx-dashboard .ld-low-stock-row > div { flex-basis: 100%; }
+    .lisso-dashboard.cx-dashboard .ld-stock-summary { gap: 12px; flex-wrap: wrap; }
+    .lisso-dashboard.cx-dashboard .ld-text-link { white-space: normal; }
+    .lisso-dashboard.cx-dashboard .cx-dashboard-footer { align-items: flex-start; }
+}
+@media (max-width: 390px) {
+    .lisso-dashboard.cx-dashboard .ld-main { padding-inline: 4px; }
+    .lisso-dashboard.cx-dashboard .ld-hello h1 { font-size: 21px; }
+    .lisso-dashboard.cx-dashboard .cx-hero { padding: 29px 16px 17px; border-radius: 23px; }
+    .lisso-dashboard.cx-dashboard .ld-main .cx-hero-title { font-size: clamp(37px, 11.5vw, 45px); }
+    .lisso-dashboard.cx-dashboard .cx-hero-description { font-size: 11px; }
+    .lisso-dashboard.cx-dashboard .cx-hero-actions { gap: 8px; }
+    .lisso-dashboard.cx-dashboard .ld-main :is(.cx-primary-action, .cx-secondary-action) { padding-inline: 12px; font-size: 10px; }
+    .lisso-dashboard.cx-dashboard .cx-orbital-scene { height: 248px; }
+    .lisso-dashboard.cx-dashboard .cx-orbit-core { width: 166px; height: 166px; }
+    .lisso-dashboard.cx-dashboard .cx-health-ring { width: 150px; height: 150px; }
+    .lisso-dashboard.cx-dashboard .cx-orbit-center { padding: 23px; gap: 5px; }
+    .lisso-dashboard.cx-dashboard .cx-orbit-center strong { font-size: 37px; }
+    .lisso-dashboard.cx-dashboard .cx-orbit-ring.ring-one { height: 208px; }
+    .lisso-dashboard.cx-dashboard .cx-orbit-ring.ring-two { height: 230px; }
+    .lisso-dashboard.cx-dashboard .cx-orbit-ring.ring-three { height: 185px; }
+    .lisso-dashboard.cx-dashboard .cx-orbit-label { max-width: 48%; padding: 8px 10px; font-size: 8px; border-radius: 13px; }
+    .lisso-dashboard.cx-dashboard .cx-orbit-label.label-sales { top: 10px; }
+    .lisso-dashboard.cx-dashboard .cx-orbit-label.label-stock { bottom: 22px; }
+    .lisso-dashboard.cx-dashboard .cx-floating-value { font-size: 12px; }
+    .lisso-dashboard.cx-dashboard .cx-orbit-caption { font-size: 8px; }
+    .lisso-dashboard.cx-dashboard .cx-kpi-grid { gap: 9px; }
+    .lisso-dashboard.cx-dashboard .cx-kpi-card { padding: 14px 12px; border-radius: 19px; }
+    .lisso-dashboard.cx-dashboard .cx-kpi-label { padding-right: 27px; font-size: 9px; }
+    .lisso-dashboard.cx-dashboard .cx-kpi-card > .cx-kpi-icon { top: 12px; right: 10px; width: 25px; height: 25px; font-size: 10px; }
+    .lisso-dashboard.cx-dashboard .cx-kpi-value { font-size: 22px; letter-spacing: -.7px; }
+    .lisso-dashboard.cx-dashboard .cx-kpi-foot { font-size: 9px; }
+    .lisso-dashboard.cx-dashboard .ld-card { padding: 19px; border-radius: 23px; }
+    .lisso-dashboard.cx-dashboard .ld-facts { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+    .lisso-dashboard.cx-dashboard .ld-stock-summary > .ld-pill { margin-left: 0; }
+    .lisso-dashboard.cx-dashboard .ld-transactions-heading h2 { font-size: 23px; }
+}
+@media (max-width: 320px) {
+    .lisso-dashboard.cx-dashboard .ld-main { padding-inline: 0; }
+    .lisso-dashboard.cx-dashboard .cx-hero { padding-inline: 12px; }
+    .lisso-dashboard.cx-dashboard .cx-orbit-core { width: 150px; height: 150px; }
+    .lisso-dashboard.cx-dashboard .cx-health-ring { width: 140px; height: 140px; }
+    .lisso-dashboard.cx-dashboard .cx-orbit-center strong { font-size: 32px; }
+    .lisso-dashboard.cx-dashboard .cx-orbit-label { max-width: 47%; padding: 7px 8px; }
+    .lisso-dashboard.cx-dashboard .cx-kpi-value { font-size: 20px; }
+    .lisso-dashboard.cx-dashboard .ld-card { padding: 16px; }
+    .lisso-dashboard.cx-dashboard .cx-chart-summary { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Pause the dashboard only; the shared command dialog retains its own contract.
+ * Leave the health SVG's static -90deg orientation and data dashoffset intact.
+ */
+.lisso-dashboard.cx-dashboard:is(.wx-motion-paused, [data-wx-motion="paused"], .wx-document-hidden) .ld-main,
+.lisso-dashboard.cx-dashboard:is(.wx-motion-paused, [data-wx-motion="paused"], .wx-document-hidden) .ld-main *,
+.lisso-dashboard.cx-dashboard:is(.wx-motion-paused, [data-wx-motion="paused"], .wx-document-hidden) .ld-main *::before,
+.lisso-dashboard.cx-dashboard:is(.wx-motion-paused, [data-wx-motion="paused"], .wx-document-hidden) .ld-main *::after {
+    animation-play-state: paused !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+}
+.lisso-dashboard.cx-dashboard:is(.wx-motion-paused, [data-wx-motion="paused"], .wx-document-hidden) :is(.cx-primary-action, .cx-secondary-action, .ld-action-arrow, .cx-primary-action > i, .cx-primary-action > svg, .cx-primary-action > [aria-hidden="true"], .cx-secondary-action > [aria-hidden="true"], .ld-black-link > span, .ld-lavender-link > span, .cx-reveal.is-entering) { transform: none !important; }
+@media (prefers-reduced-motion: reduce) {
+    .lisso-dashboard.cx-dashboard .ld-main,
+    .lisso-dashboard.cx-dashboard .ld-main *,
+    .lisso-dashboard.cx-dashboard .ld-main *::before,
+    .lisso-dashboard.cx-dashboard .ld-main *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+    .lisso-dashboard.cx-dashboard :is(.cx-primary-action, .cx-secondary-action, .ld-action-arrow, .cx-primary-action > i, .cx-primary-action > svg, .cx-primary-action > [aria-hidden="true"], .cx-secondary-action > [aria-hidden="true"], .ld-black-link > span, .ld-lavender-link > span, .cx-reveal.is-entering) { transform: none !important; }
+}
+@media (forced-colors: active) {
+    .lisso-dashboard.cx-dashboard .cx-gradient-text { background: none; color: CanvasText; -webkit-text-fill-color: currentColor; }
+    .lisso-dashboard.cx-dashboard .cx-health-ring circle:first-of-type { stroke: GrayText; }
+    .lisso-dashboard.cx-dashboard .cx-health-ring circle:last-of-type { stroke: Highlight; }
+    .lisso-dashboard.cx-dashboard :is(.ld-card, .cx-kpi-card)::after { display: none; }
+}
+@media print {
+    .lisso-dashboard.cx-dashboard #trendChart { display: none !important; }
+    .lisso-dashboard.cx-dashboard :is(.cx-insight-panel, .ld-stock-card, .ld-supplier-balance, .ld-suppliers, .cx-insight-strip, .ld-activity .ld-card-intro, .ld-activity .ld-card-footer) { display: none !important; }
+    .lisso-dashboard.cx-dashboard .cx-print-summary { display: block; font-size: 9pt; margin: 3mm 0 5mm; color: #111; }
+    .lisso-dashboard.cx-dashboard .ld-counts { margin: 2mm 0 0; }
+    .lisso-dashboard.cx-dashboard .ld-counts dd { font-size: 14pt; margin: 1mm 0; }
+    .lisso-dashboard.cx-dashboard .ld-snapshot .ld-eyebrow { margin-top: 3mm !important; }
+    .lisso-dashboard.cx-dashboard .ld-snapshot .ld-balance { margin: 2mm 0 3mm; }
+    .lisso-dashboard.cx-dashboard .ld-snapshot .ld-facts { margin: 0; }
+    .lisso-dashboard.cx-dashboard .ld-snapshot .ld-card-footer { display: none; }
+    .lisso-dashboard.cx-dashboard .ld-chart-card .cx-chart-summary { padding: 2mm 0; }
+    .lisso-dashboard.cx-dashboard { background: #fff !important; color: #111 !important; }
+    .lisso-dashboard.cx-dashboard .ld-main,
+    .lisso-dashboard.cx-dashboard .ld-main *,
+    .lisso-dashboard.cx-dashboard .ld-main *::before,
+    .lisso-dashboard.cx-dashboard .ld-main *::after { animation: none !important; transition: none !important; text-shadow: none !important; box-shadow: none !important; }
+    .lisso-dashboard.cx-dashboard :is(.cx-hero, .cx-orbital-scene, .cx-kpi-icon, .cx-mini-spark, .cx-table-toolbar, .cx-chart-controls, .cx-command-link, .cx-primary-action, .cx-secondary-action, .cx-hero-index, .cx-orbit-star, .cx-orbit-star4, .cx-dashboard-footer) { display: none !important; }
+    .lisso-dashboard.cx-dashboard :is(.ld-card, .cx-kpi-card)::after,
+    .lisso-dashboard.cx-dashboard .cx-hero::before { content: none !important; display: none !important; }
+    .lisso-dashboard.cx-dashboard .cx-reveal { opacity: 1 !important; visibility: visible !important; transform: none !important; }
+    .lisso-dashboard.cx-dashboard .cx-kpi-grid { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3mm; margin-bottom: 5mm; }
+    .lisso-dashboard.cx-dashboard :is(.cx-kpi-card, .cx-insight-tile, .ld-health.cx-insight-panel) { min-height: 0; padding: 3mm; border: .5pt solid #aaa; border-radius: 0; background: #fff !important; color: #111 !important; break-inside: avoid; }
+    .lisso-dashboard.cx-dashboard .cx-kpi-label { padding: 0; color: #333 !important; font-size: 8pt; }
+    .lisso-dashboard.cx-dashboard .cx-kpi-value { color: #111 !important; font-size: 14pt; letter-spacing: normal; margin: 2mm 0; }
+    .lisso-dashboard.cx-dashboard .cx-kpi-foot { color: #333 !important; font-size: 8pt; }
+    .lisso-dashboard.cx-dashboard .ld-snapshot,
+    .lisso-dashboard.cx-dashboard .ld-snapshot * { background: #fff !important; color: #111 !important; border-color: #aaa !important; }
+    .lisso-dashboard.cx-dashboard .ld-snapshot { border: .5pt solid #aaa !important; }
+    .lisso-dashboard.cx-dashboard .ld-snapshot .ld-balance { font-size: 20pt; }
+    .lisso-dashboard.cx-dashboard .cx-insight-strip { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3mm; margin: 4mm 0; }
+    .lisso-dashboard.cx-dashboard .cx-insight-tile *,
+    .lisso-dashboard.cx-dashboard .cx-insight-panel * { color: #111 !important; }
+    .lisso-dashboard.cx-dashboard .ld-data-table { min-width: 0 !important; }
+    .lisso-dashboard.cx-dashboard .ld-table-scroll { overflow: visible !important; }
+}
