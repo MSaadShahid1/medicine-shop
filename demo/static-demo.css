@@ -1,0 +1,48 @@
+/* Static demo (GitHub Pages) additions. The AI assistant needs the PHP server, so it is hidden. */
+.wx-agent-launch, .wx-agent-panel { display: none !important; }
+
+.sd-badge {
+    position: fixed;
+    left: max(14px, env(safe-area-inset-left));
+    bottom: max(14px, env(safe-area-inset-bottom));
+    z-index: 1040;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    max-width: calc(100vw - 28px);
+    padding: 9px 14px;
+    border: 1px solid #fff;
+    border-radius: 999px;
+    background: #fffcf9e6;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 24px #6f4c8222;
+    color: #5d4a6c;
+    font: 600 11px/1.3 Inter, system-ui, sans-serif;
+    text-decoration: none;
+}
+.sd-badge::before { content: ''; width: 7px; height: 7px; flex-shrink: 0; border-radius: 50%; background: #5fbf8f; }
+a.sd-badge:hover { color: #3e3047; text-decoration: underline; }
+
+.sd-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 24px;
+    z-index: 1300;
+    max-width: min(460px, calc(100vw - 32px));
+    padding: 12px 18px;
+    border: 1px solid #e6d9ef;
+    border-radius: 16px;
+    background: #fffcf9;
+    box-shadow: 0 18px 50px #3a254a2e;
+    color: #3e3047;
+    font: 500 13px/1.45 Inter, system-ui, sans-serif;
+    opacity: 0;
+    transform: translate(-50%, 20px);
+    transition: opacity .25s ease, transform .25s ease;
+    pointer-events: none;
+}
+.sd-toast.is-visible { opacity: 1; transform: translate(-50%, 0); }
+
+@media (prefers-reduced-motion: reduce) { .sd-toast { transition: none; } }
+@media print { .sd-badge, .sd-toast { display: none !important; } }

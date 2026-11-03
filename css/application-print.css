@@ -1,0 +1,93 @@
+/* One print contract for every application screen. Standalone invoices use pdf_style.php. */
+.application-print-heading { display: none; }
+@page { size: A4 portrait; margin: 12mm 10mm 14mm; }
+@media print {
+    *, *::before, *::after { animation: none !important; transition: none !important; box-shadow: none !important; text-shadow: none !important; }
+    html, body, body.lisso-dashboard { background: #fff !important; color: #111 !important; margin: 0 !important; padding: 0 !important; min-height: 0 !important; height: auto !important; overflow: visible !important; }
+    body { font-family: Arial, Helvetica, sans-serif; font-size: 10pt; line-height: 1.4; }
+    body::before, body::after, .sidebar, .drawer-backdrop, .workspace-topbar, .page-header,
+    .no-print, [data-print-exclude], .mobile-toggle, .po-overview, .po-guide, .po-search-card,
+    .bp-workflow, .bp-valuation, .po-links, .ld-quick-actions, .ld-filter-pills, .ld-transaction-links,
+    .ld-round-link, .ld-black-link, .ld-lavender-link, .ld-bill-link, .modal, .modal-backdrop,
+    .search-wrapper, .search-list, .filter-pills, .btn, .btn-action-circle, .btn-icon-circle,
+    button, input[type='submit'], input[type='reset'], .print-action-column, .bp-cart-empty,
+    datalist, .po-empty > i, .profile-banner, .profile-header { display: none !important; }
+    .application-print-heading { display: flex !important; align-items: flex-start; justify-content: space-between; gap: 10mm; padding: 0 0 5mm; margin: 0 0 6mm; border-bottom: 1.5pt solid #111; break-inside: avoid; }
+    .application-print-heading strong { display: block; color: #111; font-size: 16pt; font-weight: 700; letter-spacing: -.5pt; }
+    .application-print-heading h1 { margin: 2mm 0 0; font-size: 13pt; font-weight: 400; color: #111; }
+    .application-print-meta { text-align: right; font-size: 8pt; color: #444; max-width: 45%; }
+    .application-print-meta p { margin: 0 0 1mm; }
+    .application-print-note { font-size: 8pt; font-weight: 700; }
+    .main-content, .lisso-dashboard .ld-main { width: 100% !important; max-width: none !important; margin: 0 !important; padding: 0 !important; min-height: 0 !important; }
+    .main-content > .container { max-width: none; padding: 0; }
+    .content-card, .stat-card, .stat-box, .profile-card, .profile-sidebar, .profile-content,
+    .glass-container, .fin-widget, .bp-info-card, .bp-account-ribbon, .bp-tab-frame,
+    .lisso-dashboard .ld-card { background: #fff !important; color: #111 !important; border: 0.5pt solid #ccc !important; border-radius: 0 !important; padding: 4mm !important; margin-bottom: 5mm !important; height: auto !important; transform: none !important; }
+    /* Long table cards must be allowed to continue on the next sheet. */
+    .content-card, .po-directory, .bp-tab-frame, .profile-content, .ld-transactions { break-inside: auto !important; page-break-inside: auto !important; overflow: visible !important; }
+    .stat-card, .stat-box, .bp-info-card, .bp-account-ribbon, .profile-card, .profile-sidebar { break-inside: avoid; page-break-inside: avoid; }
+    .stat-card, .stat-box { min-height: 0 !important; padding: 3mm !important; }
+    .table-responsive, .ld-table-scroll, .card-body-custom, .overflow-hidden { overflow: visible !important; max-height: none !important; }
+    .card-body-custom, .content-card > .p-4 { padding: 0 !important; }
+    .po-section-head, .bp-section-head, .section-header, .ld-card-heading { padding: 0 0 3mm !important; margin-bottom: 3mm !important; border-bottom: 0.5pt solid #ccc; break-inside: avoid; break-after: avoid; }
+    .po-eyebrow, .bp-count, .po-count { display: none !important; }
+    h1, h2, h3, h4, h5, h6 { color: #111 !important; break-after: avoid; page-break-after: avoid; letter-spacing: normal !important; }
+    .po-section-head h3, .bp-section-head h3, .section-header h5, h5 { font-size: 11pt !important; margin: 0; }
+    p { orphans: 3; widows: 3; }
+    a { color: #111 !important; text-decoration: none !important; }
+    a[href]::after { content: none !important; }
+    .table, .table-modern, .lisso-dashboard .ld-data-table, #invoiceTable, #purchaseTable { display: table !important; width: 100% !important; min-width: 0 !important; border-collapse: collapse !important; font-size: 8.5pt !important; }
+    thead { display: table-header-group !important; }
+    tfoot { display: table-row-group !important; }
+    tbody { break-inside: auto !important; }
+    tr { break-inside: avoid; page-break-inside: avoid; }
+    .table th, .table td, .lisso-dashboard .ld-data-table th, .lisso-dashboard .ld-data-table td {
+        background: #fff !important; color: #111 !important; padding: 2.5mm 1.5mm !important;
+        border-bottom: 0.5pt solid #ccc !important; font-size: 8.5pt !important;
+        line-height: 1.4; white-space: normal !important; overflow-wrap: anywhere; vertical-align: top;
+    }
+    .table th, .lisso-dashboard .ld-data-table thead th { font-size: 7.5pt !important; font-weight: 700 !important; text-transform: none !important; letter-spacing: normal !important; border-top: 1pt solid #111 !important; border-bottom: 1pt solid #111 !important; }
+    .text-end, .text-right, .numeric, .ld-align-right { text-align: right !important; font-variant-numeric: tabular-nums; }
+    .badge, .badge-pill, .ld-pill { background: transparent !important; color: #111 !important; border: 0 !important; border-radius: 0 !important; padding: 0 !important; white-space: normal !important; font-weight: 400 !important; }
+    .text-muted, .text-secondary, .text-primary, .text-danger, .text-success, .text-white { color: #222 !important; }
+    .profile-card .customer-avatar, .profile-sidebar .company-avatar { margin: 0 0 3mm !important; height: 14mm; width: 14mm; background: #fff !important; color: #111 !important; border: 0.5pt solid #aaa; font-size: 14pt; }
+    .bp-customer .main-content > .row, .bp-supplier .main-content > .row { display: flex !important; align-items: flex-start; }
+    .bp-customer .main-content > .row > .col-lg-3, .bp-supplier .main-content > .row > .col-lg-3 { width: 25% !important; }
+    .bp-customer .main-content > .row > .col-lg-9, .bp-supplier .main-content > .row > .col-lg-9 { width: 75% !important; }
+    .bp-customer .col-lg-9 > .row > .col-md-6, .bp-supplier .col-lg-9 > .row > .col-md-6 { width: 50% !important; }
+    .bp-profile, .bp-profile.pb-4 { padding: 3mm !important; }
+    .bp-profile .px-3, .bp-profile .px-2 { padding-right: 0 !important; padding-left: 0 !important; }
+    .bp-profile .mt-4 { margin-top: 3mm !important; }
+    .bp-profile .mb-3 { margin-bottom: 3mm !important; }
+    .bp-profile h3, .bp-profile h4 { font-size: 11pt !important; overflow-wrap: anywhere; }
+    .bp-profile .info-list { padding: 0; }
+    .bp-profile .info-list li { padding: 2mm 0; font-size: 8pt; }
+    .bp-profile .info-list strong, .bp-profile span { overflow-wrap: anywhere; }
+    .bp-account-ribbon h3 { font-size: 12pt !important; }
+    .bp-account-ribbon p { font-size: 8.5pt; line-height: 1.4; margin: 2mm 0; }
+    .bp-mini-metrics { padding: 2mm !important; margin: 2mm 0 !important; gap: 2mm; }
+    .bp-mini-metrics dd { font-size: 10pt; margin: 1mm 0 0; }
+    .balance-card, .due-banner, .bill-totals, .bp-mini-metrics { background: #fff !important; color: #111 !important; border: 0.5pt solid #bbb !important; border-radius: 0 !important; margin: 3mm 0 !important; padding: 3mm !important; break-inside: avoid; }
+    .balance-card *, .due-banner * { color: #111 !important; }
+    .stat-icon, .info-icon { display: none !important; }
+    .stat-details h3, .stat-details h4, .stat-box h4 { font-size: 13pt !important; }
+    .info-value, .fin-value { font-size: 10pt !important; overflow-wrap: anywhere; }
+    .form-control, .form-select, .input-group-text { color: #111 !important; background: #fff !important; border: 0.5pt solid #bbb !important; border-radius: 0 !important; padding: 2mm !important; font-size: 9pt !important; min-height: 0; }
+    textarea { height: auto !important; min-height: 20mm; }
+    .input-group-text i, .input-group-text svg { display: none; }
+    .po-form-row, .bp-payment-layout, .bp-form-intro { display: block !important; }
+    .po-form-row > [class*='col-'] { width: 100% !important; max-width: none !important; }
+    .bp-supplier .tab-pane { display: block !important; opacity: 1 !important; visibility: visible !important; margin-top: 4mm; }
+    .bp-tab-frame > .nav { display: none !important; }
+    .bp-page .bp-info-card .row > [class*='col-'] { width: 50%; }
+    .lisso-dashboard .ld-greeting, .lisso-dashboard .ld-today, .lisso-dashboard .ld-abstract { display: none !important; }
+    .lisso-dashboard .ld-grid { display: block !important; }
+    .lisso-dashboard .ld-column { display: block !important; }
+    .lisso-dashboard .ld-stock-card { transform: none !important; }
+    .lisso-dashboard .ld-percentage { font-size: 40pt !important; letter-spacing: -2pt !important; }
+    .lisso-dashboard .ld-health { margin-bottom: 5mm; }
+    .lisso-dashboard .ld-health h2 { font-size: 14pt !important; }
+    .lisso-dashboard .ld-activity, .lisso-dashboard .ld-supplier-balance { break-inside: avoid; }
+    .lisso-dashboard .ld-trend-data { display: block; }
+    .lisso-dashboard .ld-trend-data > .ld-table-scroll { display: block !important; }
+}

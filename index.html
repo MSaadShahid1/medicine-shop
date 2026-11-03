@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Medicine Shop</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css?v=1793720681">
+    <link rel="stylesheet" href="css/lisso-dashboard.css?v=1793720681">
+    <script defer src="js/vendor/apexcharts-3.45.2.min.js"></script>
+    <script>
+        // Motion guard: hide the dashboard body until js/dashboard-motion.js has set its first frame.
+        (function () {
+            var root = document.documentElement;
+            try { if (matchMedia('(prefers-reduced-motion: reduce)').matches || localStorage.getItem('farms.motion') === 'paused') return; } catch (e) {}
+            root.classList.add('cx-motion');
+            setTimeout(function () { if (!root.classList.contains('cx-motion-ready')) root.classList.remove('cx-motion'); }, 3000);
+        })();
+    </script>
+    <style>.cx-motion:not(.cx-motion-ready) .ld-main { opacity: 0; }</style>
+    <link rel="stylesheet" href="demo/static-demo.css">
+</head>
+<body class="lisso-dashboard cx-dashboard">
+    <link rel="stylesheet" href="css/workspace.css?v=1793720681">
+<link rel="stylesheet" href="css/lisso.css?v=1793720681">
+<link rel="stylesheet" href="css/page-polish.css?v=1793720681">
+<link rel="stylesheet" href="css/billing-polish.css?v=1793720681">
+<link rel="stylesheet" href="css/application-print.css?v=1793720681">
+<link rel="stylesheet" href="css/workspace-experience.css?v=1793720681">
+<link rel="stylesheet" href="css/ai-agent.css?v=1793720681">
+<link rel="stylesheet" href="css/dashboard-studio.css?v=1793724486">
+<script src="js/vendor/lucide-0.468.0.min.js"></script>
+<div class="sidebar" id="sidebar" role="dialog" aria-modal="true" aria-label="All business pages" inert>
+    <button type="button" class="drawer-close" onclick="document.getElementById('sidebar').classList.remove('active')" aria-label="Close navigation"><i data-lucide="x"></i></button>
+    <a href="dashboard.html" class="sidebar-brand" style="display:block; text-decoration:none;">
+        <h4><i data-lucide="pill"></i> Medicine Shop</h4>
+        <p>Business workspace</p>
+    </a>
+
+    <ul class="sidebar-menu">
+        <li class="nav-section">Workspace</li><li class="menu-item" ><a href="dashboard.html" class="active" aria-current="page"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a></li><li class="nav-section">Relationships</li><li class="menu-item" style="margin-top: 20px;"><a href="add_company.html" class=""><i data-lucide="building-2"></i><span>Add Company</span></a></li><li class="menu-item" ><a href="view_companies.html" class=""><i data-lucide="list"></i><span>View Companies</span></a></li><li class="menu-item" style="margin-top: 20px;"><a href="add_customer.html" class=""><i data-lucide="user-plus"></i><span>Add Customer</span></a></li><li class="menu-item" ><a href="view_customers.html" class=""><i data-lucide="users"></i><span>View Customers</span></a></li><li class="nav-section">Inventory</li><li class="menu-item" style="margin-top: 20px;"><a href="add_product.html" class=""><i data-lucide="package-plus"></i><span>Add Product</span></a></li><li class="menu-item" ><a href="view_products.html" class=""><i data-lucide="package"></i><span>View Products</span></a></li><li class="menu-item" style="margin-top: 20px;"><a href="inventory_report.html" class=""><i data-lucide="warehouse"></i><span>Inventory Report</span></a></li><li class="nav-section">Sales & billing</li><li class="menu-item" style="margin-top: 20px;"><a href="create_sales_bill.html" class=""><i data-lucide="shopping-cart"></i><span>Create Sales Bill</span></a></li><li class="menu-item" ><a href="view_sales_bills.html" class=""><i data-lucide="receipt"></i><span>View Sales Bills</span></a></li><li class="nav-section">Purchasing</li><li class="menu-item" style="margin-top: 20px;"><a href="create_purchase_bill.html" class=""><i data-lucide="truck"></i><span>Create Purchase Bill</span></a></li><li class="menu-item" ><a href="view_purchase_bills.html" class=""><i data-lucide="file-text"></i><span>Purchase Bills</span></a></li><li class="menu-item" ><a href="add_opening_balance.html" class=""><i data-lucide="file-input"></i><span>Add Opening Balance</span></a></li>    </ul>
+    <div class="sidebar-footer">
+        <span class="workspace-avatar">MS</span>
+        <div><strong>Medicine Shop</strong><small>Your business, in balance.</small></div>
+    </div>
+</div>
+<button type="button" class="drawer-backdrop" aria-label="Close navigation" onclick="document.getElementById('sidebar').classList.remove('active')" tabindex="-1"></button>
+<header class="workspace-topbar">
+    <a href="dashboard.html" class="lisso-brand" aria-label="Medicine Shop home"><span class="lisso-mark" aria-hidden="true"><b></b><b></b><b></b><b></b></span>Medicine Shop<span class="brand-period">.</span></a>
+    <nav class="lisso-nav" aria-label="Main navigation">
+        <a href="dashboard.html" class="lisso-nav-link is-current" aria-current="page">Dashboard</a>
+                <details class="lisso-nav-group">
+            <summary>Inventory<i data-lucide="chevron-down"></i></summary>
+            <div class="lisso-dropdown">
+                                <a href="add_product.html" ><i data-lucide="package-plus"></i>Add Product</a>
+                                <a href="view_products.html" ><i data-lucide="package"></i>View Products</a>
+                                <a href="inventory_report.html" ><i data-lucide="warehouse"></i>Inventory Report</a>
+                            </div>
+        </details>
+                <details class="lisso-nav-group">
+            <summary>Billing<i data-lucide="chevron-down"></i></summary>
+            <div class="lisso-dropdown">
+                                <a href="create_sales_bill.html" ><i data-lucide="shopping-cart"></i>Create Sales Bill</a>
+                                <a href="view_sales_bills.html" ><i data-lucide="receipt"></i>View Sales Bills</a>
+                                <a href="create_purchase_bill.html" ><i data-lucide="truck"></i>Create Purchase Bill</a>
+                                <a href="view_purchase_bills.html" ><i data-lucide="file-text"></i>Purchase Bills</a>
+                                <a href="add_opening_balance.html" ><i data-lucide="file-input"></i>Add Opening Balance</a>
+                            </div>
+        </details>
+                <details class="lisso-nav-group">
+            <summary>Directory<i data-lucide="chevron-down"></i></summary>
+            <div class="lisso-dropdown">
+                                <a href="add_company.html" ><i data-lucide="building-2"></i>Add Company</a>
+                                <a href="view_companies.html" ><i data-lucide="list"></i>View Companies</a>
+                                <a href="add_customer.html" ><i data-lucide="user-plus"></i>Add Customer</a>
+                                <a href="view_customers.html" ><i data-lucide="users"></i>View Customers</a>
+                            </div>
+        </details>
+            </nav>
+    <div class="lisso-nav-actions">
+        <button type="button" class="wx-nav-command" data-wx-open aria-label="Find a workspace page"><i data-lucide="search" aria-hidden="true"></i><kbd data-wx-shortcut>Ctrl K</kbd></button>
+        <div class="lisso-mode-switch" aria-label="Create a bill"><a href="create_purchase_bill.html" class="">Purchase</a><a href="create_sales_bill.html" class="selected">New sale</a></div>
+        <button type="button" class="lisso-menu-button" onclick="toggleSidebar()" aria-label="Open all pages" aria-controls="sidebar" aria-expanded="false"><i data-lucide="menu"></i></button>
+    </div>
+</header>
+    <div class="wx-atmosphere" aria-hidden="true">
+        <span class="wx-orb wx-orb-violet"></span>
+        <span class="wx-orb wx-orb-peach"></span>
+        <span class="wx-orb wx-orb-citron"></span>
+        <span class="wx-grain"></span>
+    </div>
+
+        <button type="button" class="wx-agent-launch" data-agent-open aria-haspopup="dialog" aria-controls="wxAgentPanel" aria-expanded="false">
+        <span class="wx-agent-spark" aria-hidden="true">✦</span>
+        <span>Ask your AI agent</span><span class="wx-agent-tag">BETA</span>
+    </button>
+
+    <section id="wxAgentPanel" class="wx-agent-panel" role="dialog" aria-modal="false" aria-labelledby="wxAgentTitle" hidden
+        data-endpoint="ai_agent.php" data-csrf="eb3ab49df274351fe3f9203aa51987bf3ca6adf7408198ea154ebda1f78c9a1a">
+        <header class="wx-agent-head">
+            <div class="wx-agent-avatar" aria-hidden="true">✦</div>
+            <div class="wx-agent-heading">
+                <span class="wx-eyebrow">MEDICINE SHOP / AI ASSISTANT</span>
+                <h2 id="wxAgentTitle">Your shop co-pilot</h2>
+                <span class="wx-agent-online"><i aria-hidden="true"></i> Ready to help</span>
+            </div>
+            <div class="wx-agent-head-actions">
+                <button type="button" class="wx-agent-new-chat" data-agent-new-chat>New chat</button>
+                <button type="button" class="wx-close" data-agent-close aria-label="Close AI assistant">×</button>
+            </div>
+        </header>
+        <p class="wx-agent-privacy">Focused on this shop. Recent chat stays in this tab for follow-ups; messages are sent to the configured AI service.</p>
+        <div class="wx-agent-messages" data-agent-messages role="log" aria-live="polite" aria-relevant="additions"></div>
+        <form class="wx-agent-form" data-agent-form>
+            <label class="wx-sr-only" for="wxAgentInput">Message your AI assistant</label>
+            <textarea id="wxAgentInput" rows="1" maxlength="2000" placeholder="Ask a question or describe a task…" required></textarea>
+            <button type="submit" class="wx-agent-send" aria-label="Send message"><span aria-hidden="true">↑</span></button>
+        </form>
+        <div class="wx-agent-footer"><span>Answers may need a quick fact-check.</span><span>Enter to send · Shift+Enter for a new line</span></div>
+    </section>
+
+    <dialog id="wxCommandDialog" class="wx-dialog" aria-labelledby="wxCommandTitle" aria-describedby="wxCommandDescription" hidden>
+        <div class="wx-dialog-head">
+            <div><span class="wx-eyebrow">MEDICINE SHOP / NAVIGATE</span>
+                <h2 id="wxCommandTitle">A shortcut to your next step<span aria-hidden="true">.</span></h2>
+            </div>
+            <button type="button" class="wx-close" data-wx-close aria-label="Close page finder">×</button>
+        </div>
+        <p id="wxCommandDescription" class="wx-description">Find a workspace page. Search stays on this device — not your business records.</p>
+        <div class="wx-search-wrap">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+            <label class="wx-sr-only" for="wxCommandInput">Search workspace pages</label>
+            <input id="wxCommandInput" type="search" placeholder="Try “stock”, “customer” or “invoice”…" autocomplete="off" spellcheck="false" aria-controls="wxCommandRoutes" aria-describedby="wxKeyboardHelp">
+            <span class="wx-search-key" aria-hidden="true">↵</span>
+        </div>
+        <div class="wx-results-meta"><span id="wxResultStatus" role="status" aria-live="polite" aria-atomic="true">13 pages available</span><span>Pages, not records</span></div>
+        <nav id="wxCommandRoutes" class="wx-route-scroll" aria-label="Workspace pages">
+                            <section class="wx-route-group" aria-labelledby="wxGroup0">
+                    <h3 id="wxGroup0">Workspace</h3>
+                    <ul class="wx-route-list">
+                                                    <li class="wx-route-item">
+                                <a class="wx-route" href="dashboard.html" data-wx-route data-wx-search="Dashboard Workspace Your stock, sales and business overview. overview home activity" aria-current="page">
+                                    <span class="wx-route-glyph" aria-hidden="true">01</span>
+                                    <span class="wx-route-copy"><strong>Dashboard</strong><span>Your stock, sales and business overview.</span></span>
+                                    <span class="wx-current">Here</span>                                    <span class="wx-route-arrow" aria-hidden="true">↗</span>
+                                </a>
+                            </li>
+                                            </ul>
+                </section>
+                            <section class="wx-route-group" aria-labelledby="wxGroup1">
+                    <h3 id="wxGroup1">Suppliers &amp; customers</h3>
+                    <ul class="wx-route-list">
+                                                    <li class="wx-route-item">
+                                <a class="wx-route" href="add_company.html" data-wx-route data-wx-search="Add Company Suppliers &amp; customers Create a supplier record. supplier company new">
+                                    <span class="wx-route-glyph" aria-hidden="true">02</span>
+                                    <span class="wx-route-copy"><strong>Add Company</strong><span>Create a supplier record.</span></span>
+                                                                        <span class="wx-route-arrow" aria-hidden="true">↗</span>
+                                </a>
+                            </li>
+                                                    <li class="wx-route-item">
+                                <a class="wx-route" href="view_companies.html" data-wx-route data-wx-search="View Companies Suppliers &amp; customers Find suppliers and open their account details. supplier directory balance payments">
+                                    <span class="wx-route-glyph" aria-hidden="true">03</span>
+                                    <span class="wx-route-copy"><strong>View Companies</strong><span>Find suppliers and open their account details.</span></span>
+                                                                        <span class="wx-route-arrow" aria-hidden="true">↗</span>
+                                </a>
+                            </li>
+                                                    <li class="wx-route-item">
+                                <a class="wx-route" href="add_customer.html" data-wx-route data-wx-search="Add Customer Suppliers &amp; customers Create a customer record. buyer client new">
+                                    <span class="wx-route-glyph" aria-hidden="true">04</span>
+                                    <span class="wx-route-copy"><strong>Add Customer</strong><span>Create a customer record.</span></span>
+                                                                        <span class="wx-route-arrow" aria-hidden="true">↗</span>
+                                </a>
+                            </li>
+                                                    <li class="wx-route-item">
+                                <a class="wx-route" href="view_customers.html" data-wx-route data-wx-search="View Customers Suppliers &amp; customers Find customers and open their ledgers. buyer client directory ledger">
+                                    <span class="wx-route-glyph" aria-hidden="true">05</span>
+                                    <span class="wx-route-copy"><strong>View Customers</strong><span>Find customers and open their ledgers.</span></span>
+                                                                        <span class="wx-route-arrow" aria-hidden="true">↗</span>
+                                </a>
+                            </li>
+                                            </ul>
+                </section>
+                            <section class="wx-route-group" aria-labelledby="wxGroup5">
+                    <h3 id="wxGroup5">Inventory</h3>
+                    <ul class="wx-route-list">
+                                                    <li class="wx-route-item">
+                                <a class="wx-route" href="add_product.html" data-wx-route data-wx-search="Add Product Inventory Set up a product, supplier and rates. medicine item stock new">
+                                    <span class="wx-route-glyph" aria-hidden="true">06</span>
+                                    <span class="wx-route-copy"><strong>Add Product</strong><span>Set up a product, supplier and rates.</span></span>
+                                                                        <span class="wx-route-arrow" aria-hidden="true">↗</span>
+                                </a>
+                            </li>
+                                                    <li class="wx-route-item">
+                                <a class="wx-route" href="view_products.html" data-wx-route data-wx-search="View Products Inventory Browse products, prices and stock levels. medicine item price rate edit">
+                                    <span class="wx-route-glyph" aria-hidden="true">07</span>
+                                    <span class="wx-route-copy"><strong>View Products</strong><span>Browse products, prices and stock levels.</span></span>
+                                                                        <span class="wx-route-arrow" aria-hidden="true">↗</span>
+                                </a>
+                            </li>
+                                                    <li class="wx-route-item">
+                                <a class="wx-route" href="inventory_report.html" data-wx-route data-wx-search="Inventory Report Inventory Review stock quantities and inventory value. report warehouse valuation print">
+                                    <span class="wx-route-glyph" aria-hidden="true">08</span>
+                                    <span class="wx-route-copy"><strong>Inventory Report</strong><span>Review stock quantities and inventory value.</span></span>
+                                                                        <span class="wx-route-arrow" aria-hidden="true">↗</span>
+                                </a>
+                            </li>
+                                            </ul>
+                </section>
+                            <section class="wx-route-group" aria-labelledby="wxGroup8">
+                    <h3 id="wxGroup8">Sales</h3>
+                    <ul class="wx-route-list">
+                                                    <li class="wx-route-item">
+                                <a class="wx-route" href="create_sales_bill.html" data-wx-route data-wx-search="Create Sales Bill Sales Start a new customer sale. invoice sell checkout new">
+                                    <span class="wx-route-glyph" aria-hidden="true">09</span>
+                                    <span class="wx-route-copy"><strong>Create Sales Bill</strong><span>Start a new customer sale.</span></span>
+                                                                        <span class="wx-route-arrow" aria-hidden="true">↗</span>
+                                </a>
+                            </li>
+                                                    <li class="wx-route-item">
+                                <a class="wx-route" href="view_sales_bills.html" data-wx-route data-wx-search="View Sales Bills Sales Browse sales and open an invoice to print. invoice history receipts print">
+                                    <span class="wx-route-glyph" aria-hidden="true">10</span>
+                                    <span class="wx-route-copy"><strong>View Sales Bills</strong><span>Browse sales and open an invoice to print.</span></span>
+                                                                        <span class="wx-route-arrow" aria-hidden="true">↗</span>
+                                </a>
+                            </li>
+                                            </ul>
+                </section>
+                            <section class="wx-route-group" aria-labelledby="wxGroup10">
+                    <h3 id="wxGroup10">Purchasing</h3>
+                    <ul class="wx-route-list">
+                                                    <li class="wx-route-item">
+                                <a class="wx-route" href="create_purchase_bill.html" data-wx-route data-wx-search="Create Purchase Bill Purchasing Record a supplier purchase and incoming stock. buy invoice new">
+                                    <span class="wx-route-glyph" aria-hidden="true">11</span>
+                                    <span class="wx-route-copy"><strong>Create Purchase Bill</strong><span>Record a supplier purchase and incoming stock.</span></span>
+                                                                        <span class="wx-route-arrow" aria-hidden="true">↗</span>
+                                </a>
+                            </li>
+                                                    <li class="wx-route-item">
+                                <a class="wx-route" href="view_purchase_bills.html" data-wx-route data-wx-search="Purchase Bills Purchasing Review supplier bills, balances and payment actions. buy invoice history due payment">
+                                    <span class="wx-route-glyph" aria-hidden="true">12</span>
+                                    <span class="wx-route-copy"><strong>Purchase Bills</strong><span>Review supplier bills, balances and payment actions.</span></span>
+                                                                        <span class="wx-route-arrow" aria-hidden="true">↗</span>
+                                </a>
+                            </li>
+                                                    <li class="wx-route-item">
+                                <a class="wx-route" href="add_opening_balance.html" data-wx-route data-wx-search="Add Opening Balance Purchasing Enter one supplier’s historical opening balance. supplier previous outstanding due">
+                                    <span class="wx-route-glyph" aria-hidden="true">13</span>
+                                    <span class="wx-route-copy"><strong>Add Opening Balance</strong><span>Enter one supplier’s historical opening balance.</span></span>
+                                                                        <span class="wx-route-arrow" aria-hidden="true">↗</span>
+                                </a>
+                            </li>
+                                            </ul>
+                </section>
+                        <div id="wxNoResults" class="wx-no-results" hidden><span aria-hidden="true">⌕</span><strong>No matching pages</strong><p>Try “sales”, “suppliers” or “inventory”.</p><button type="button" data-wx-clear>Show all pages</button></div>
+        </nav>
+        <footer class="wx-dialog-footer">
+            <div class="wx-preferences">
+                <fieldset class="wx-ambience"><legend>Atmosphere</legend>
+                    <button type="button" data-wx-ambience="pearl" aria-pressed="true"><span class="wx-swatch wx-swatch-pearl" aria-hidden="true"></span>Pearl</button>
+                    <button type="button" data-wx-ambience="lilac" aria-pressed="false"><span class="wx-swatch wx-swatch-lilac" aria-hidden="true"></span>Lilac</button>
+                    <button type="button" data-wx-ambience="solar" aria-pressed="false"><span class="wx-swatch wx-swatch-solar" aria-hidden="true"></span>Solar</button>
+                </fieldset>
+                <button type="button" class="wx-motion" data-wx-motion aria-pressed="false"><span aria-hidden="true">Ⅱ</span><span data-wx-motion-label>Pause motion</span></button>
+            </div>
+            <p id="wxMotionNote" class="wx-motion-note" hidden>Your device requests reduced motion; animation stays off.</p>
+            <p id="wxKeyboardHelp" class="wx-keyboard-help"><span><kbd>↑</kbd><kbd>↓</kbd> browse <kbd>Enter</kbd> open</span><span><kbd>Esc</kbd> close · <span data-wx-shortcut>Ctrl K</span> anywhere</span></p>
+        </footer>
+    </dialog>
+    <script defer src="js/ai-agent.js?v=1793720681"></script>
+    <script defer src="js/workspace-experience.js?v=1793720681"></script>
+<div class="application-print-heading">
+    <div><strong>Medicine Shop</strong><h1 id="applicationPrintTitle">Dashboard</h1></div>
+    <div class="application-print-meta"><p id="applicationPrintContext">Inventory &amp; billing</p><p>Printed: <time id="applicationPrintDate">03 Nov 2026</time></p><p>Currency: Rs.</p><p class="application-print-note" id="applicationPrintNote"></p></div>
+</div>
+
+<script>
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('active');
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        if (window.lucide) lucide.createIcons({ attrs: { width: 18, height: 18, 'stroke-width': 2.1 } });
+        const drawer = document.getElementById('sidebar');
+        const drawerTrigger = document.querySelector('.lisso-menu-button');
+        let drawerWasOpen = false;
+        function syncDrawer() {
+            const open = drawer.classList.contains('active');
+            drawer.inert = !open;
+            drawerTrigger.setAttribute('aria-expanded', String(open));
+            document.body.classList.toggle('navigation-open', open);
+            if (open) drawer.querySelector('.drawer-close').focus();
+            else if (drawerWasOpen) drawerTrigger.focus();
+            drawerWasOpen = open;
+        }
+        syncDrawer();
+        new MutationObserver(syncDrawer).observe(drawer, { attributes: true, attributeFilter: ['class'] });
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                if (drawer.classList.contains('active')) { drawer.classList.remove('active'); drawerTrigger.focus(); }
+                document.querySelectorAll('.lisso-nav-group[open]').forEach(group => group.open = false);
+            }
+            if (event.key === 'Tab' && drawer.classList.contains('active')) {
+                const controls = drawer.querySelectorAll('button, a[href]');
+                const first = controls[0], last = controls[controls.length - 1];
+                if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+                else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+            }
+        });
+        document.querySelectorAll('.lisso-nav-group').forEach(function (group) {
+            group.addEventListener('toggle', function () {
+                if (group.open) document.querySelectorAll('.lisso-nav-group').forEach(other => { if (other !== group) other.open = false; });
+            });
+        });
+        document.addEventListener('click', function (event) {
+            if (!event.target.closest('.lisso-nav-group')) document.querySelectorAll('.lisso-nav-group[open]').forEach(group => group.open = false);
+        });
+        // Direct browser printing works on every screen, not just invoice links.
+        // Mark only semantic action columns; never hide a financial data column.
+        function prepareApplicationPrint() {
+            const pageTitle = document.querySelector('.main-content .page-header h2, .main-content h1');
+            const pageContext = document.querySelector('.main-content .page-header p');
+            if (pageTitle) document.getElementById('applicationPrintTitle').textContent = document.body.classList.contains('cx-dashboard') ? 'Business overview' : pageTitle.textContent.trim();
+            if (pageContext) document.getElementById('applicationPrintContext').textContent = pageContext.textContent.trim();
+            document.getElementById('applicationPrintDate').textContent = new Date().toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' });
+            const editing = document.querySelector('.main-content form[method="POST" i]');
+            document.getElementById('applicationPrintNote').textContent = editing ? 'Form preview — values shown may not have been saved.' : '';
+            document.querySelectorAll('.main-content table').forEach(function (table) {
+                const headers = table.tHead && table.tHead.rows[0];
+                if (!headers) return;
+                let column = 0;
+                Array.from(headers.cells).forEach(function (header) {
+                    const actionColumn = /^(actions?|manage)$/i.test(header.textContent.trim());
+                    if (actionColumn) {
+                        header.classList.add('print-action-column');
+                        Array.from(table.rows).forEach(function (row) {
+                            let cellColumn = 0;
+                            Array.from(row.cells).forEach(function (cell) {
+                                if (cellColumn === column && cell.colSpan === 1) cell.classList.add('print-action-column');
+                                cellColumn += cell.colSpan;
+                            });
+                        });
+                    }
+                    column += header.colSpan;
+                });
+            });
+        }
+        prepareApplicationPrint();
+        window.addEventListener('beforeprint', prepareApplicationPrint);
+    });
+</script>    <link rel="stylesheet" href="css/dashboard-motion.css?v=1793724486">
+
+    <main class="main-content ld-main">
+        <header class="ld-greeting">
+            <div class="ld-hello"><span class="ld-avatar" aria-hidden="true">MS</span><h1>Your day, in focus.</h1></div>
+            <p>Your business today</p>
+            <div class="ld-date"><time datetime="2026-11-03">Tue, 03 Nov 2026</time><span class="cx-last-updated">Snapshot · 22:02</span></div>
+        </header>
+
+        <section class="cx-hero" aria-labelledby="dashboardStudioTitle">
+            <span class="cx-hero-index" aria-hidden="true">01 / THE DAILY PICTURE</span>
+            <div class="cx-hero-copy">
+                <span class="cx-kicker">A little clarity. A better business.</span>
+                <h2 class="cx-hero-title" id="dashboardStudioTitle"><span>Clarity</span><br><span class="cx-gradient-text">in every detail.</span></h2>
+                <p class="cx-hero-description">Your stock, your people, your next move. One thoughtful view of everything that keeps Medicine Shop moving.</p>
+                <div class="cx-hero-actions">
+                    <a href="create_sales_bill.html" class="cx-primary-action"><i data-lucide="plus" aria-hidden="true"></i> Create a sale <span aria-hidden="true">↗</span></a>
+                    <a href="inventory_report.html" class="cx-secondary-action">Explore inventory <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+                    <button type="button" class="cx-command-link" data-wx-open>Find a page <kbd data-wx-shortcut>Ctrl K</kbd></button>
+                </div>
+            </div>
+            <div class="cx-orbital-scene" aria-label="Inventory health snapshot">
+                <span class="cx-orbit-ring ring-one" aria-hidden="true"></span><span class="cx-orbit-ring ring-two" aria-hidden="true"></span><span class="cx-orbit-ring ring-three" aria-hidden="true"></span><span class="cx-orbit-star4" aria-hidden="true"></span>
+                <div class="cx-orbit-core">
+                    <svg class="cx-health-ring" viewBox="0 0 160 160" aria-hidden="true"><circle cx="80" cy="80" r="68"></circle><circle cx="80" cy="80" r="68" style="stroke-dashoffset: 106.82"></circle></svg>
+                    <div class="cx-orbit-center"><small>STOCK HEALTH</small><strong>75%</strong><span>products at 20+ units</span></div>
+                </div>
+                <div class="cx-orbit-label label-sales"><span>Sales today</span><strong class="cx-floating-value">Rs. 74,090.00</strong></div>
+                <div class="cx-orbit-label label-stock"><span>Need a little attention</span><strong class="cx-floating-value">6 low-stock products</strong></div>
+                <span class="cx-orbit-caption">18 of 24 products have 20+ units · At page load</span>
+            </div>
+        </section>
+
+        <section class="cx-kpi-grid" aria-label="Your business at a glance">
+            <article class="cx-kpi-card"><span class="cx-kpi-icon"><i data-lucide="receipt" aria-hidden="true"></i></span><span class="cx-kpi-label">Sales today</span><strong class="cx-kpi-value">Rs. 74,090.00</strong><span class="cx-kpi-foot">12 recorded invoices · 03 Nov</span></article>
+            <article class="cx-kpi-card is-lilac"><span class="cx-kpi-icon"><i data-lucide="trending-up" aria-hidden="true"></i></span><span class="cx-kpi-label">November sales</span><strong class="cx-kpi-value">Rs. 74,090.00</strong><span class="cx-kpi-foot">Month to date · Recorded sales</span></article>
+            <article class="cx-kpi-card is-yellow"><span class="cx-kpi-icon"><i data-lucide="boxes" aria-hidden="true"></i></span><span class="cx-kpi-label">Inventory at cost</span><strong class="cx-kpi-value">Rs. 177,380.00</strong><span class="cx-kpi-foot">Current quantities × purchase rates</span></article>
+            <article class="cx-kpi-card is-mint"><span class="cx-kpi-icon"><i data-lucide="wallet" aria-hidden="true"></i></span><span class="cx-kpi-label">Open supplier bills</span><strong class="cx-kpi-value">26</strong><span class="cx-kpi-foot">Bills with a remaining balance</span></article>
+        </section>
+
+        <!-- Kinetic strip of figures already shown on this page; decorative, so hidden from assistive tech. -->
+        <section class="cx-marquee" aria-hidden="true">
+            <span class="cx-mq-badge"><span class="cx-mq-live"></span>Snapshot · 22:02</span>
+            <div class="cx-marquee-row"><div class="cx-marquee-track"><div class="cx-marquee-group">
+                <span class="cx-cap is-mint"><span class="cx-cap-tag"><i data-lucide="receipt"></i>Sold today</span><span class="cx-cap-value">Rs. 74,090.00</span></span><span class="cx-tab"></span>
+                <span class="cx-cap is-lilac"><span class="cx-cap-tag"><i data-lucide="trending-up"></i>November sales</span><span class="cx-cap-value">Rs. 74,090.00</span></span><span class="cx-tab"></span>
+                <span class="cx-cap is-rose"><span class="cx-cap-tag"><i data-lucide="heart-pulse"></i>Stock health</span><span class="cx-cap-value">75%</span></span><span class="cx-tab"></span>
+                <span class="cx-cap is-yellow"><span class="cx-cap-tag"><i data-lucide="package"></i>To restock</span><span class="cx-cap-value">6 products</span></span><span class="cx-tab"></span>
+                <span class="cx-cap is-coral"><span class="cx-cap-tag"><i data-lucide="file-clock"></i>Open bills</span><span class="cx-cap-value">26</span></span><span class="cx-tab"></span>
+                <span class="cx-cap is-periwinkle"><span class="cx-cap-tag"><i data-lucide="wallet"></i>Supplier balance</span><span class="cx-cap-value">Rs. 238,752.50</span></span><span class="cx-tab"></span>
+                <span class="cx-cap is-mint"><span class="cx-cap-tag"><i data-lucide="pill"></i>Products</span><span class="cx-cap-value">24</span></span><span class="cx-tab"></span>
+                <span class="cx-cap is-lilac"><span class="cx-cap-tag"><i data-lucide="users"></i>Customers</span><span class="cx-cap-value">12</span></span><span class="cx-tab"></span>
+            </div></div></div>
+        </section>
+
+        <div class="ld-grid">
+            <p class="cx-print-summary">Stock health: 75% · 6 products below 20 units · 4 below 10 units. Demo records are included.</p>
+            <section class="ld-column ld-left" aria-label="Inventory health and business activity">
+                <div class="ld-health cx-insight-panel">
+                    <span class="cx-section-kicker">02 / The small things</span>
+                    <h2>A clear view.<br>A confident next step.</h2>
+                    <ul class="cx-insight-list">
+                        <li><span><strong class="cx-pulse-number">4</strong> products are below 10 units.</span></li>
+                        <li><span><strong class="cx-pulse-number">2</strong> products have no available stock.</span></li>
+                        <li><span><strong class="cx-pulse-number">18</strong> products are stocked at 20+ units.</span></li>
+                    </ul>
+                    <div class="po-links"><a href="view_products.html" class="cx-secondary-action">Review your stock <span aria-hidden="true">↗</span></a></div>
+                </div>
+
+                <article class="ld-card ld-activity">
+                    <div class="ld-card-heading"><h2>Business activity</h2><span class="ld-pill ld-pill-violet">All time</span></div>
+                    <p class="ld-card-intro">The people &amp; products behind your shop.</p>
+                    <dl class="ld-counts">
+                        <div><dt>Products</dt><dd><a href="view_products.html">24</a></dd></div>
+                        <div><dt>Suppliers</dt><dd><a href="view_companies.html">6</a></dd></div>
+                        <div><dt>Customers</dt><dd><a href="view_customers.html">12</a></dd></div>
+                    </dl>
+                    <div class="ld-card-footer"><span>Explore your inventory</span><a href="inventory_report.html" class="ld-round-link" aria-label="Open inventory report">↗</a></div>
+                </article>
+                <div class="ld-today"><span class="ld-today-dot" aria-hidden="true"></span><div><span>Sales today</span><strong>Rs. 74,090.00</strong><small>03 November 2026 · Sales bills recorded today</small></div></div>
+            </section>
+
+            <section class="ld-column ld-center" aria-label="Business snapshot and trends">
+                <article class="ld-card ld-snapshot">
+                    <div class="ld-card-heading"><h2>Business snapshot</h2><span class="ld-pill ld-pill-mint">Overview</span></div>
+                    <p class="ld-eyebrow">Outstanding supplier balance</p>
+                    <div class="ld-balance">Rs. 238,752.50</div>
+                    <dl class="ld-facts">
+                        <div><dt>All-time sales</dt><dd>Rs. 268,020.00</dd></div>
+                        <div><dt>Purchases</dt><dd>Rs. 401,880.00</dd></div>
+                        <div><dt>Paid to suppliers</dt><dd>Rs. 163,127.50</dd></div>
+                    </dl>
+                    <div class="ld-card-footer"><a class="ld-subtle-link" href="view_companies.html">Your suppliers <span aria-hidden="true">↗</span></a><a href="create_sales_bill.html" class="ld-black-link">Create a sale <span aria-hidden="true">↗</span></a></div>
+                </article>
+
+                <article class="ld-card ld-stock-card">
+                    <div class="ld-card-heading"><h2>Stock check</h2><span class="ld-pill ld-pill-yellow">Restock review</span></div>
+                    <div class="ld-stock-summary"><strong>6</strong><p>products below<br>20 units in stock</p><span class="ld-pill ld-pill-coral">4 critical</span></div>
+                    <div class="ld-card-footer"><span class="ld-note">Critical = fewer than 10 units</span><a href="create_purchase_bill.html" class="ld-text-link">Add purchase <span aria-hidden="true">↗</span></a></div>
+                </article>
+
+                <article class="ld-card ld-chart-card">
+                    <div class="ld-card-heading"><h2>Business rhythm</h2><div class="cx-chart-controls" role="group" aria-label="Chart period" hidden><button type="button" data-chart-months="3" aria-pressed="false">3M</button><button type="button" data-chart-months="6" aria-pressed="true">6M</button></div></div>
+                    <p class="ld-chart-caption">Sales &amp; purchases · Pakistani rupees</p>
+                    <div class="cx-chart-summary"><div><span id="cxTrendSalesLabel">Sales · 6 months</span><strong id="cxTrendSales">Rs. 268,020.00</strong></div><div><span id="cxTrendPurchasesLabel">Purchases · 6 months</span><strong id="cxTrendPurchases">Rs. 363,780.00</strong></div></div>
+                    <div id="trendChart" class="ld-chart" role="img" aria-label="Monthly sales and purchases; exact amounts are in the table below." hidden></div>
+                    <details id="trendFallback" class="ld-trend-data" open>
+                        <summary>Monthly sales &amp; purchases data</summary>
+                        <div class="ld-table-scroll"><table class="ld-data-table"><caption class="ld-sr-only">Actual totals for the last six calendar months, including this month</caption><thead><tr><th scope="col">Month</th><th scope="col">Sales</th><th scope="col">Purchases</th></tr></thead><tbody>
+                                                    <tr data-trend-row><th scope="row">Jun 2026</th><td>Rs. 22,665.00</td><td>Rs. 193,115.00</td></tr>
+                                                    <tr data-trend-row><th scope="row">Jul 2026</th><td>Rs. 31,835.00</td><td>Rs. 22,145.00</td></tr>
+                                                    <tr data-trend-row><th scope="row">Aug 2026</th><td>Rs. 39,835.00</td><td>Rs. 27,740.00</td></tr>
+                                                    <tr data-trend-row><th scope="row">Sep 2026</th><td>Rs. 45,475.00</td><td>Rs. 31,565.00</td></tr>
+                                                    <tr data-trend-row><th scope="row">Oct 2026</th><td>Rs. 54,120.00</td><td>Rs. 37,635.00</td></tr>
+                                                    <tr data-trend-row><th scope="row">Nov 2026</th><td>Rs. 74,090.00</td><td>Rs. 51,580.00</td></tr>
+                                                </tbody></table></div>
+                    </details>
+                </article>
+            </section>
+
+            <aside class="ld-column ld-right" aria-label="Quick actions and suppliers">
+                <section class="ld-quick-actions">
+                    <div class="ld-actions-heading"><h2>Quick actions</h2><span class="ld-flower" aria-hidden="true"></span></div>
+                    <a href="create_sales_bill.html" class="ld-action-row"><span class="ld-action-icon ld-icon-mint"><i class="fa-solid fa-receipt" aria-hidden="true"></i></span><span>Create sale<small>Make a new sales bill</small></span><span class="ld-action-arrow" aria-hidden="true">↗</span></a>
+                    <a href="create_purchase_bill.html" class="ld-action-row"><span class="ld-action-icon ld-icon-yellow"><i class="fa-solid fa-bag-shopping" aria-hidden="true"></i></span><span>Add purchase<small>Bring new stock in</small></span><span class="ld-action-arrow" aria-hidden="true">↗</span></a>
+                    <a href="add_customer.html" class="ld-action-row"><span class="ld-action-icon ld-icon-coral"><i class="fa-solid fa-user-plus" aria-hidden="true"></i></span><span>Add customer<small>Grow your customer book</small></span><span class="ld-action-arrow" aria-hidden="true">↗</span></a>
+                    <a href="inventory_report.html" class="ld-action-row"><span class="ld-action-icon ld-icon-violet"><i class="fa-solid fa-boxes-stacked" aria-hidden="true"></i></span><span>Inventory report<small>See every product &amp; quantity</small></span><span class="ld-action-arrow" aria-hidden="true">↗</span></a>
+                </section>
+
+                <article class="ld-card ld-supplier-balance">
+                    <div class="ld-card-heading"><h2>Supplier balance</h2><span class="ld-mini-orbit" aria-hidden="true">✳</span></div>
+                    <p>Keep your next payment in view.</p>
+                    <strong class="ld-supplier-amount">Rs. 238,752.50</strong>
+                    <div class="ld-abstract" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+                    <a href="view_purchase_bills.html" class="ld-lavender-link">View purchase bills <span aria-hidden="true">↗</span></a>
+                </article>
+
+                <section class="ld-suppliers">
+                    <div class="ld-card-heading"><h2>Top suppliers</h2><a href="view_companies.html" class="ld-subtle-link">View all ↗</a></div>
+                    <p class="ld-note">By all-time purchase value</p>
+                                        <a class="ld-supplier-row" href="company_details-id-6.html"><span>[DEMO] Brightline Distributors</span><strong>Rs. 92,555.00</strong></a>
+                                        <a class="ld-supplier-row" href="company_details-id-3.html"><span>[DEMO] VitalLeaf Supplies</span><strong>Rs. 91,455.00</strong></a>
+                                        <a class="ld-supplier-row" href="company_details-id-4.html"><span>[DEMO] Riverbend Medical</span><strong>Rs. 87,690.00</strong></a>
+                                        <a class="ld-supplier-row" href="company_details-id-5.html"><span>[DEMO] Solace Laboratories</span><strong>Rs. 53,675.00</strong></a>
+                                    </section>
+            </aside>
+        </div>
+
+        <section class="cx-insight-strip" aria-label="A little more perspective">
+            <article class="cx-insight-tile"><span class="cx-insight-label">Supplier purchases paid</span><strong>40.6%</strong><p>Paid amounts ÷ recorded supplier purchases. Not a profit measure.</p></article>
+            <article class="cx-insight-tile"><span class="cx-insight-label">October sales</span><strong>Rs. 54,120.00</strong><p>Full previous calendar month. This month’s KPI is month to date.</p></article>
+            <article class="cx-insight-tile"><span class="cx-insight-label">Recorded customer invoices</span><strong>72</strong><p>All-time sales invoices across your customer book.</p></article>
+        </section>
+
+        <section class="ld-card ld-transactions" aria-labelledby="transactionsHeading">
+            <div class="ld-transactions-heading"><div><h2 id="transactionsHeading">Recent transactions</h2><p class="ld-note">Your latest eight sales &amp; purchases, together.</p></div><div class="ld-filter-pills" role="group" aria-label="Filter recent transactions" hidden><button type="button" class="filter-pill active" data-filter="all" aria-pressed="true">All</button><button type="button" class="filter-pill" data-filter="Sale" aria-pressed="false">Sales</button><button type="button" class="filter-pill" data-filter="Purchase" aria-pressed="false">Purchases</button></div></div>
+            <div class="cx-table-toolbar" hidden>
+                <div class="cx-search-field"><i data-lucide="search" aria-hidden="true"></i><label class="ld-sr-only" for="cxTxnSearch">Search the latest eight transactions</label><input type="search" id="cxTxnSearch" placeholder="Find a reference, customer or supplier…" autocomplete="off"></div>
+                <div class="cx-sort-field"><label for="cxTxnSort">Sort</label><select id="cxTxnSort"><option value="newest">Newest first</option><option value="amount-desc">Amount: high to low</option><option value="amount-asc">Amount: low to high</option></select></div>
+            </div>
+            <div class="ld-table-scroll">
+                <table class="ld-data-table ld-transaction-table" id="txnTable">
+                    <caption class="ld-sr-only">Recent transactions with links to bill details</caption>
+                    <thead><tr><th scope="col">Date</th><th scope="col">Reference</th><th scope="col">Customer / supplier</th><th scope="col">Type</th><th scope="col" class="ld-align-right">Amount</th><th scope="col">Status</th><th scope="col"><span class="ld-sr-only">View bill</span></th></tr></thead>
+                    <tbody>
+                                            <tr data-type="Sale" data-amount="16970.00"><td>03-Nov-2026</td><td><a href="sales_bill_detail-id-72.html">DEMO-202611-INV-12</a></td><td>[DEMO] Omar Siddiqui</td><td><span class="ld-pill ld-pill-mint">Sale</span></td><td class="ld-align-right">Rs. 16,970.00</td><td><span class="ld-pill ld-pill-mint">Paid</span></td><td><a href="sales_bill_detail-id-72.html" class="ld-bill-link" aria-label="View DEMO-202611-INV-12">↗</a></td></tr>
+                                            <tr data-type="Sale" data-amount="4530.00"><td>03-Nov-2026</td><td><a href="sales_bill_detail-id-71.html">DEMO-202611-INV-11</a></td><td>[DEMO] Maryam Noor</td><td><span class="ld-pill ld-pill-mint">Sale</span></td><td class="ld-align-right">Rs. 4,530.00</td><td><span class="ld-pill ld-pill-mint">Paid</span></td><td><a href="sales_bill_detail-id-71.html" class="ld-bill-link" aria-label="View DEMO-202611-INV-11">↗</a></td></tr>
+                                            <tr data-type="Sale" data-amount="7470.00"><td>03-Nov-2026</td><td><a href="sales_bill_detail-id-70.html">DEMO-202611-INV-10</a></td><td>[DEMO] Hassan Khan</td><td><span class="ld-pill ld-pill-mint">Sale</span></td><td class="ld-align-right">Rs. 7,470.00</td><td><span class="ld-pill ld-pill-mint">Paid</span></td><td><a href="sales_bill_detail-id-70.html" class="ld-bill-link" aria-label="View DEMO-202611-INV-10">↗</a></td></tr>
+                                            <tr data-type="Sale" data-amount="4190.00"><td>03-Nov-2026</td><td><a href="sales_bill_detail-id-69.html">DEMO-202611-INV-09</a></td><td>[DEMO] Zain Malik</td><td><span class="ld-pill ld-pill-mint">Sale</span></td><td class="ld-align-right">Rs. 4,190.00</td><td><span class="ld-pill ld-pill-mint">Paid</span></td><td><a href="sales_bill_detail-id-69.html" class="ld-bill-link" aria-label="View DEMO-202611-INV-09">↗</a></td></tr>
+                                            <tr data-type="Sale" data-amount="5395.00"><td>03-Nov-2026</td><td><a href="sales_bill_detail-id-68.html">DEMO-202611-INV-08</a></td><td>[DEMO] Amina Farooq</td><td><span class="ld-pill ld-pill-mint">Sale</span></td><td class="ld-align-right">Rs. 5,395.00</td><td><span class="ld-pill ld-pill-mint">Paid</span></td><td><a href="sales_bill_detail-id-68.html" class="ld-bill-link" aria-label="View DEMO-202611-INV-08">↗</a></td></tr>
+                                            <tr data-type="Sale" data-amount="4360.00"><td>03-Nov-2026</td><td><a href="sales_bill_detail-id-67.html">DEMO-202611-INV-07</a></td><td>[DEMO] Noor Iqbal</td><td><span class="ld-pill ld-pill-mint">Sale</span></td><td class="ld-align-right">Rs. 4,360.00</td><td><span class="ld-pill ld-pill-mint">Paid</span></td><td><a href="sales_bill_detail-id-67.html" class="ld-bill-link" aria-label="View DEMO-202611-INV-07">↗</a></td></tr>
+                                            <tr data-type="Sale" data-amount="4090.00"><td>03-Nov-2026</td><td><a href="sales_bill_detail-id-66.html">DEMO-202611-INV-06</a></td><td>[DEMO] Yusuf Abbas</td><td><span class="ld-pill ld-pill-mint">Sale</span></td><td class="ld-align-right">Rs. 4,090.00</td><td><span class="ld-pill ld-pill-mint">Paid</span></td><td><a href="sales_bill_detail-id-66.html" class="ld-bill-link" aria-label="View DEMO-202611-INV-06">↗</a></td></tr>
+                                            <tr data-type="Sale" data-amount="6580.00"><td>03-Nov-2026</td><td><a href="sales_bill_detail-id-65.html">DEMO-202611-INV-05</a></td><td>[DEMO] Hira Ahmed</td><td><span class="ld-pill ld-pill-mint">Sale</span></td><td class="ld-align-right">Rs. 6,580.00</td><td><span class="ld-pill ld-pill-mint">Paid</span></td><td><a href="sales_bill_detail-id-65.html" class="ld-bill-link" aria-label="View DEMO-202611-INV-05">↗</a></td></tr>
+                                            <tr id="txnFilterEmpty" hidden><td colspan="7" class="ld-empty">No matching transactions in the latest eight records.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p id="txnFilterStatus" class="ld-sr-only" aria-live="polite"></p>
+            <div class="ld-transaction-links"><a href="view_sales_bills.html" class="ld-text-link">All sales ↗</a><a href="view_purchase_bills.html" class="ld-text-link">All purchases ↗</a></div>
+        </section>
+
+                <section class="ld-card ld-low-stock" aria-labelledby="lowStockHeading">
+            <div class="ld-card-heading"><div><h2 id="lowStockHeading">A little stock attention</h2><p class="ld-note">Lowest stock first · Showing 5 of 6 products below 20 units</p></div><a href="view_products.html" class="ld-text-link">All products ↗</a></div>
+                        <div class="ld-low-stock-row"><div><a href="edit_product-id-1.html">[DEMO] Calmora 500mg Tablets</a><small>Paracetamol 500mg</small></div><span class="ld-pill ld-pill-coral">0 units left</span><a href="create_purchase_bill.html" class="ld-text-link">Restock ↗</a></div>
+                        <div class="ld-low-stock-row"><div><a href="edit_product-id-6.html">[DEMO] Sunwell D3 Capsules</a><small>Cholecalciferol</small></div><span class="ld-pill ld-pill-coral">0 units left</span><a href="create_purchase_bill.html" class="ld-text-link">Restock ↗</a></div>
+                        <div class="ld-low-stock-row"><div><a href="edit_product-id-2.html">[DEMO] Relivon 200mg Tablets</a><small>Ibuprofen 200mg</small></div><span class="ld-pill ld-pill-coral">4 units left</span><a href="create_purchase_bill.html" class="ld-text-link">Restock ↗</a></div>
+                        <div class="ld-low-stock-row"><div><a href="edit_product-id-3.html">[DEMO] ClearDay 10mg Tablets</a><small>Cetirizine 10mg</small></div><span class="ld-pill ld-pill-coral">8 units left</span><a href="create_purchase_bill.html" class="ld-text-link">Restock ↗</a></div>
+                        <div class="ld-low-stock-row"><div><a href="edit_product-id-4.html">[DEMO] HydraPlus ORS Sachets</a><small>Oral rehydration salts</small></div><span class="ld-pill ld-pill-yellow">12 units left</span><a href="create_purchase_bill.html" class="ld-text-link">Restock ↗</a></div>
+                    </section>
+                <footer class="cx-dashboard-footer"><p>Built around your business, not the noise. Figures reflect the database when this page loaded. Demo records are included in these totals.</p><a href="inventory_report_pdf.html" class="cx-secondary-action" target="_blank" rel="noopener">Open inventory print preview <i data-lucide="arrow-up-right" aria-hidden="true"></i></a></footer>
+    </main>
+
+    <!-- Motion runs before the CDN script so a slow CDN cannot hold the page behind the motion guard. -->
+    <script defer src="js/vendor/gsap-3.15.0.min.js"></script>
+    <script defer src="js/vendor/gsap-scrolltrigger-3.15.0.min.js"></script>
+    <script defer src="js/vendor/gsap-splittext-3.15.0.min.js"></script>
+    <script defer src="js/vendor/gsap-scrambletext-3.15.0.min.js"></script>
+    <script defer src="js/vendor/lenis-1.3.27.min.js"></script>
+    <script defer src="js/dashboard-motion.js?v=1793724486"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="application/json" id="cxDashboardData">{"trend":{"labels":["Jun 2026","Jul 2026","Aug 2026","Sep 2026","Oct 2026","Nov 2026"],"sales":[22665,31835,39835,45475,54120,74090],"purchases":[193115,22145,27740,31565,37635,51580]},"snapshotAt":"2026-11-03T22:02:21+05:00"}</script>
+    <script defer src="js/dashboard-studio.js?v=1793724486"></script>
+    <script type="module" src="js/dashboard-pills.js?v=1793724486"></script>
+<script src="demo/static-demo-data.js"></script>
+<script src="demo/static-demo.js"></script>
+</body>
+</html>

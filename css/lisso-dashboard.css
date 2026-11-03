@@ -1,0 +1,180 @@
+/* Dashboard-only Lisso editorial layout. Global navigation lives in lisso.css. */
+.lisso-dashboard {
+    --ld-ink: #242228;
+    --ld-muted: #747078;
+    --ld-rule: #e5edf4;
+    --ld-violet: #7770e8;
+    color: var(--ld-ink);
+    background: radial-gradient(ellipse at 90% 25%, #f1dfdf 0, transparent 55%), linear-gradient(120deg, #e7e3dc, #ede7e3 65%, #efdedf);
+    background-attachment: fixed;
+}
+.lisso-dashboard .ld-main { color: var(--ld-ink); }
+.lisso-dashboard .ld-main h1,
+.lisso-dashboard .ld-main h2,
+.lisso-dashboard .ld-main p { margin: 0; }
+.lisso-dashboard .ld-main h2 { font-size: 20px; font-weight: 400; letter-spacing: -.65px; line-height: 1.25; color: var(--ld-ink); }
+.lisso-dashboard .ld-main a { color: inherit; text-decoration: none; }
+.lisso-dashboard .ld-main a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.lisso-dashboard .ld-main :is(a, button, summary):focus-visible { outline: 3px solid #6556bc; outline-offset: 5px; }
+.lisso-dashboard .ld-main [hidden] { display: none !important; }
+.lisso-dashboard .ld-greeting { display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; gap: 20px; padding: 0 0 28px; margin-bottom: 32px; border-bottom: 1px solid #c6c4c7; }
+.lisso-dashboard .ld-hello { display: flex; align-items: center; gap: 15px; }
+.lisso-dashboard .ld-hello h1 { font-size: clamp(28px, 3vw, 42px); letter-spacing: -1.8px; font-weight: 400; white-space: nowrap; }
+.lisso-dashboard .ld-avatar { width: 48px; height: 48px; flex-shrink: 0; display: grid; place-items: center; border-radius: 50%; background: #7770e8; color: #fff; font-size: 13px; letter-spacing: -.5px; }
+.lisso-dashboard .ld-avatar-small { width: 32px; height: 32px; background: #e6daed; color: #514763; font-size: 10px; }
+.lisso-dashboard .ld-greeting > p { text-align: center; font-size: 15px; letter-spacing: -.35px; }
+.lisso-dashboard .ld-date { display: flex; justify-content: flex-end; align-items: center; gap: 14px; font-size: 12px; }
+.lisso-dashboard .ld-grid { display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.35fr) minmax(0, .95fr); gap: 30px; align-items: start; margin-bottom: 34px; }
+.lisso-dashboard .ld-column { min-width: 0; display: flex; flex-direction: column; gap: 24px; }
+.lisso-dashboard .ld-card { background: #fff; border: 1px solid #ffffff70; border-radius: 30px; padding: 26px; box-shadow: none; min-width: 0; }
+.lisso-dashboard .ld-card-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.lisso-dashboard .ld-pill { display: inline-flex; align-items: center; justify-content: center; padding: 6px 11px; border-radius: 30px; font-size: 10px; line-height: 1.3; white-space: nowrap; font-weight: 500; }
+.lisso-dashboard .ld-pill-mint { background: #d9efe4; color: #2e5d4d; }
+.lisso-dashboard .ld-pill-violet { background: #9380ce; color: #fff; }
+.lisso-dashboard .ld-pill-yellow { background: #fae9a3; color: #665321; }
+.lisso-dashboard .ld-pill-coral { background: #f7d4cc; color: #813e35; }
+.lisso-dashboard .ld-note { color: var(--ld-muted); font-size: 11px; line-height: 1.65; }
+.lisso-dashboard .ld-health { padding: 3px 4px 1px; }
+.lisso-dashboard .ld-brandline { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+.lisso-dashboard .ld-shop-pill { display: inline-block; font-size: 10px; line-height: 1.7; border: 1px solid #cac5c3; padding: 6px 11px; border-radius: 24px; }
+.lisso-dashboard .ld-shop-pill > span { color: #716b70; }
+.lisso-dashboard .ld-flower { display: inline-block; width: 36px; height: 36px; flex-shrink: 0; background: radial-gradient(ellipse at 28% 28%, #f1c951 0 28%, transparent 30%), radial-gradient(ellipse at 72% 28%, #f1c951 0 28%, transparent 30%), radial-gradient(ellipse at 28% 72%, #f1c951 0 28%, transparent 30%), radial-gradient(ellipse at 72% 72%, #f1c951 0 28%, transparent 30%); transform: rotate(-12deg); }
+.lisso-dashboard .ld-health h2 { font-size: clamp(28px, 2.6vw, 39px); line-height: 1.13; letter-spacing: -1.7px; }
+.lisso-dashboard .ld-percentage { font-size: clamp(92px, 9.8vw, 148px); line-height: 1.13; font-weight: 400; letter-spacing: -9px; margin: 18px 0 6px; }
+.lisso-dashboard .ld-percentage > span { font-size: .56em; letter-spacing: -4px; }
+.lisso-dashboard .ld-health-label { font-size: 13px; margin-bottom: 10px !important; }
+.lisso-dashboard .ld-activity { background: #f5d66f; border-color: transparent; padding-bottom: 20px; }
+.lisso-dashboard .ld-activity .ld-card-heading { align-items: flex-start; }
+.lisso-dashboard .ld-card-intro { font-size: 11px; color: #6c5c35; line-height: 1.7; margin-top: 12px !important; max-width: 180px; }
+.lisso-dashboard .ld-counts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 28px 0 24px; }
+.lisso-dashboard .ld-counts dt { font-weight: 400; font-size: 10px; color: #65552e; }
+.lisso-dashboard .ld-counts dd { margin: 5px 0 0; font-size: 36px; line-height: 1.1; letter-spacing: -1.8px; overflow-wrap: anywhere; }
+.lisso-dashboard .ld-card-footer { border-top: 1px solid var(--ld-rule); display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 18px; font-size: 11px; }
+.lisso-dashboard .ld-activity .ld-card-footer { border-top-color: #a58c443e; }
+.lisso-dashboard .ld-round-link { width: 38px; height: 38px; display: grid; place-items: center; background: #fff; border-radius: 50%; font-size: 23px; flex-shrink: 0; }
+.lisso-dashboard .ld-today { display: flex; align-items: flex-start; gap: 11px; padding: 0 6px; }
+.lisso-dashboard .ld-today-dot { width: 8px; height: 8px; background: #7770e8; border-radius: 50%; margin-top: 5px; }
+.lisso-dashboard .ld-today span { font-size: 11px; color: var(--ld-muted); }
+.lisso-dashboard .ld-today strong { display: block; font-size: 25px; letter-spacing: -1px; font-weight: 400; margin: 6px 0; overflow-wrap: anywhere; }
+.lisso-dashboard .ld-today small { font-size: 10px; color: var(--ld-muted); }
+.lisso-dashboard .ld-eyebrow { margin-top: 30px !important; font-size: 11px; color: var(--ld-muted); }
+.lisso-dashboard .ld-balance { font-size: clamp(26px, 2.7vw, 40px); letter-spacing: -1.8px; line-height: 1.25; margin: 8px 0 26px; overflow-wrap: anywhere; }
+.lisso-dashboard .ld-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 0 0 24px; }
+.lisso-dashboard .ld-facts dt { font-size: 10px; font-weight: 400; color: var(--ld-muted); margin-bottom: 7px; }
+.lisso-dashboard .ld-facts dd { font-size: 12px; font-weight: 500; margin: 0; line-height: 1.6; overflow-wrap: anywhere; }
+.lisso-dashboard .ld-main .ld-subtle-link { font-size: 11px; color: #706a74; }
+.lisso-dashboard .ld-main .ld-black-link { color: white; background: #28252a; border-radius: 30px; padding: 11px 17px; font-size: 11px; display: inline-flex; gap: 18px; align-items: center; }
+.lisso-dashboard .ld-stock-card { transform: rotate(-1.5deg); margin: 0 3px 2px; }
+.lisso-dashboard .ld-stock-summary { display: flex; align-items: center; gap: 15px; padding: 20px 0; }
+.lisso-dashboard .ld-stock-summary > strong { font-size: 58px; line-height: 1; letter-spacing: -3px; font-weight: 400; }
+.lisso-dashboard .ld-stock-summary > p { font-size: 11px; color: var(--ld-muted); line-height: 1.6; }
+.lisso-dashboard .ld-stock-summary > .ld-pill { margin-left: auto; }
+.lisso-dashboard .ld-text-link { font-size: 11px; white-space: nowrap; }
+.lisso-dashboard .ld-chart-card { padding: 23px 20px 16px; }
+.lisso-dashboard .ld-chart-caption { font-size: 10px; color: var(--ld-muted); margin-top: 8px !important; }
+.lisso-dashboard .ld-chart { min-height: 230px; margin-top: 6px; max-width: 100%; overflow: hidden; }
+.lisso-dashboard .ld-trend-data { font-size: 10px; color: var(--ld-muted); margin-top: 12px; }
+.lisso-dashboard .ld-trend-data summary { cursor: pointer; padding: 4px 0; }
+.lisso-dashboard .ld-actions-heading { display: flex; align-items: center; justify-content: space-between; padding: 4px 0 16px; }
+.lisso-dashboard .ld-actions-heading h2 { font-size: 27px; letter-spacing: -1px; }
+.lisso-dashboard .ld-actions-heading .ld-flower { width: 30px; height: 30px; }
+.lisso-dashboard .ld-action-row { display: flex; align-items: center; gap: 12px; padding: 18px 0; border-bottom: 1px solid #c9c6ca; font-size: 13px; }
+.lisso-dashboard .ld-action-row small { display: block; color: var(--ld-muted); font-size: 10px; margin-top: 5px; }
+.lisso-dashboard .ld-action-icon { width: 35px; height: 35px; border-radius: 12px; display: grid; place-items: center; font-size: 13px; flex-shrink: 0; }
+.lisso-dashboard .ld-icon-mint { background: #d9e9dd; color: #496857; }
+.lisso-dashboard .ld-icon-yellow { background: #efe2b2; color: #7d6b35; }
+.lisso-dashboard .ld-icon-coral { background: #f0d5ce; color: #9a6a60; }
+.lisso-dashboard .ld-icon-violet { background: #e2dcf0; color: #7f6da1; }
+.lisso-dashboard .ld-action-arrow { margin-left: auto; font-size: 23px; }
+.lisso-dashboard .ld-supplier-balance { background: #ded9f2; border-color: transparent; padding: 25px; overflow: hidden; }
+.lisso-dashboard .ld-supplier-balance p { font-size: 11px; color: #6d6485; margin: 12px 0 17px; }
+.lisso-dashboard .ld-mini-orbit { color: #8170d2; font-size: 28px; }
+.lisso-dashboard .ld-supplier-amount { font-size: clamp(25px, 2.4vw, 35px); letter-spacing: -1.5px; font-weight: 400; line-height: 1.2; overflow-wrap: anywhere; }
+.lisso-dashboard .ld-abstract { height: 90px; display: flex; justify-content: center; align-items: center; gap: 7px; margin: 15px 0; transform: rotate(-8deg); }
+.lisso-dashboard .ld-abstract span { width: 12px; height: 22px; border-radius: 12px; background: #9384d2; }
+.lisso-dashboard .ld-abstract span:nth-child(2n) { height: 38px; background: #a699df; }
+.lisso-dashboard .ld-abstract span:nth-child(3n) { height: 58px; background: #8170c9; }
+.lisso-dashboard .ld-abstract span:nth-child(4n) { height: 73px; }
+.lisso-dashboard .ld-abstract span:nth-child(5n) { height: 44px; background: #b8ace5; }
+.lisso-dashboard .ld-main .ld-lavender-link { display: flex; justify-content: space-between; align-items: center; padding: 13px 16px; background: #f4f1fc; border-radius: 24px; color: #645394; font-size: 11px; }
+.lisso-dashboard .ld-suppliers { padding: 0 4px; }
+.lisso-dashboard .ld-suppliers > .ld-note { margin-top: 8px; }
+.lisso-dashboard .ld-supplier-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid #cbc6cc; padding: 14px 0; font-size: 11px; }
+.lisso-dashboard .ld-supplier-row > span { overflow-wrap: anywhere; }
+.lisso-dashboard .ld-supplier-row strong { font-weight: 400; font-size: 10px; white-space: nowrap; }
+.lisso-dashboard .ld-transactions, .lisso-dashboard .ld-low-stock { margin-top: 25px; }
+.lisso-dashboard .ld-transactions-heading { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 18px; margin-bottom: 20px; }
+.lisso-dashboard .ld-transactions-heading h2 { font-size: 25px; }
+.lisso-dashboard .ld-transactions-heading .ld-note { margin-top: 8px; }
+.lisso-dashboard .ld-filter-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.lisso-dashboard .ld-filter-pills .filter-pill { border: 1px solid #e5e1e8; background: transparent; color: #6e6873; padding: 8px 17px; border-radius: 24px; font-size: 11px; box-shadow: none; cursor: pointer; }
+.lisso-dashboard .ld-filter-pills .filter-pill.active { background: #28252a; color: #fff; border-color: #28252a; }
+.lisso-dashboard .ld-table-scroll { position: relative; overflow-x: auto; max-width: 100%; }
+.lisso-dashboard .ld-data-table { width: 100%; border-collapse: collapse; color: var(--ld-ink); font-size: 11px; }
+.lisso-dashboard .ld-data-table th { font-weight: 400; }
+.lisso-dashboard .ld-data-table thead th { color: var(--ld-muted); font-size: 10px; text-align: left; }
+.lisso-dashboard .ld-data-table :is(th, td) { padding: 13px 9px; border-bottom: 1px solid var(--ld-rule); vertical-align: middle; }
+.lisso-dashboard .ld-transaction-table { min-width: 720px; }
+.lisso-dashboard .ld-transaction-table td { padding-top: 17px; padding-bottom: 17px; }
+.lisso-dashboard .ld-data-table .ld-align-right { text-align: right; white-space: nowrap; }
+.lisso-dashboard .ld-data-table tbody tr:last-child > * { border-bottom: 0; }
+.lisso-dashboard .ld-data-table tbody tr:hover { background: #f9f8fc; }
+.lisso-dashboard .ld-trend-data .ld-data-table { min-width: 310px; font-size: 10px; }
+.lisso-dashboard .ld-trend-data .ld-data-table :is(th, td) { padding: 9px 5px; }
+.lisso-dashboard .ld-main .ld-bill-link { font-size: 20px; display: inline-flex; padding: 3px 7px; }
+.lisso-dashboard .ld-empty { text-align: center; padding: 30px !important; color: var(--ld-muted); }
+.lisso-dashboard .ld-transaction-links { display: flex; justify-content: flex-end; gap: 24px; padding-top: 17px; border-top: 1px solid var(--ld-rule); }
+.lisso-dashboard .ld-low-stock .ld-card-heading { align-items: flex-start; margin-bottom: 15px; }
+.lisso-dashboard .ld-low-stock .ld-note { margin-top: 8px; }
+.lisso-dashboard .ld-low-stock-row { display: flex; align-items: center; gap: 24px; padding: 16px 0; border-top: 1px solid var(--ld-rule); font-size: 13px; }
+.lisso-dashboard .ld-low-stock-row > div { flex: 1; }
+.lisso-dashboard .ld-low-stock-row small { display: block; font-size: 10px; color: var(--ld-muted); margin-top: 5px; }
+.lisso-dashboard .ld-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+@media (min-width: 1600px) {
+    .lisso-dashboard .ld-grid { gap: 38px; }
+}
+@media (max-width: 1199px) {
+    .lisso-dashboard .ld-grid { grid-template-columns: minmax(0, .95fr) minmax(0, 1.35fr); gap: 24px; }
+    .lisso-dashboard .ld-right { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+    .lisso-dashboard .ld-suppliers { grid-column: 1 / -1; }
+    .lisso-dashboard .ld-percentage { font-size: 120px; }
+    .lisso-dashboard .ld-greeting { grid-template-columns: 1fr auto; }
+    .lisso-dashboard .ld-greeting > p { display: none; }
+}
+@media (max-width: 700px) {
+    .lisso-dashboard .ld-greeting { gap: 12px; padding-bottom: 22px; margin-bottom: 25px; }
+    .lisso-dashboard .ld-avatar { width: 36px; height: 36px; font-size: 10px; }
+    .lisso-dashboard .ld-hello { gap: 10px; }
+    .lisso-dashboard .ld-hello h1 { font-size: 30px; }
+    .lisso-dashboard .ld-date { font-size: 10px; }
+    .lisso-dashboard .ld-date .ld-avatar { display: none; }
+    .lisso-dashboard .ld-grid { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+    .lisso-dashboard .ld-right { grid-column: auto; display: flex; }
+    .lisso-dashboard .ld-column { gap: 22px; }
+    .lisso-dashboard .ld-card { border-radius: 28px; padding: 23px; }
+    .lisso-dashboard .ld-health h2 { font-size: 38px; }
+    .lisso-dashboard .ld-percentage { font-size: 126px; }
+    .lisso-dashboard .ld-health .ld-note { max-width: 300px; }
+    .lisso-dashboard .ld-facts { gap: 10px; }
+    .lisso-dashboard .ld-balance { font-size: 35px; }
+    .lisso-dashboard .ld-supplier-amount { font-size: 35px; }
+    .lisso-dashboard .ld-stock-card { margin-left: 4px; margin-right: 4px; }
+    .lisso-dashboard .ld-low-stock-row { flex-wrap: wrap; gap: 12px; }
+    .lisso-dashboard .ld-low-stock-row > div { flex-basis: 55%; }
+    .lisso-dashboard .ld-stock-summary { gap: 10px; }
+}
+@media (max-width: 380px) {
+    .lisso-dashboard .ld-card { padding: 20px; }
+    .lisso-dashboard .ld-card-heading { flex-wrap: wrap; }
+    .lisso-dashboard .ld-stock-summary { flex-wrap: wrap; }
+    .lisso-dashboard .ld-stock-summary > .ld-pill { margin-left: 0; }
+    .lisso-dashboard .ld-facts { grid-template-columns: 1fr; }
+    .lisso-dashboard .ld-balance { font-size: 31px; }
+}
+@media print {
+    .lisso-dashboard { background: #fff; }
+    .lisso-dashboard .ld-grid { display: block; }
+    .lisso-dashboard .ld-card { break-inside: avoid; border: 1px solid #ddd; margin-bottom: 20px; }
+    .lisso-dashboard .ld-stock-card { transform: none; }
+    .lisso-dashboard .ld-trend-data > .ld-table-scroll { display: block; }
+}

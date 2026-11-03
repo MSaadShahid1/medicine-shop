@@ -1,0 +1,303 @@
+/* Dashboard motion layer: GSAP + Lenis choreography and the WebGL pill hero.
+   Loaded after dashboard-studio.css. Everything here is decorative; no figure depends on it. */
+
+/* Lenis 1.3.27 base rules (MIT, see js/vendor/lenis-LICENSE.txt). */
+html.lenis, html.lenis body { height: auto; }
+.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
+.lenis [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-smooth iframe { pointer-events: none; }
+
+/* WebGL pills sit behind the copy and the stock-health core; the core becomes frosted glass. */
+.lisso-dashboard.cx-dashboard .cx-pills {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    pointer-events: none;
+}
+.lisso-dashboard.cx-dashboard .cx-hero.has-pills .cx-orbital-scene { z-index: 1; }
+.lisso-dashboard.cx-dashboard .cx-hero.has-pills :is(.cx-orbit-ring, .cx-orbit-star4) { display: none; }
+.lisso-dashboard.cx-dashboard .cx-hero.has-pills .cx-orbit-core {
+    background: radial-gradient(circle at 30% 18%, #fffdfde6 5%, #f8f3fccc 48%, #e9e0f2bf 100%);
+    -webkit-backdrop-filter: blur(12px) saturate(1.35);
+    backdrop-filter: blur(12px) saturate(1.35);
+    box-shadow: inset 0 2px 2px #fff, inset 0 -8px 20px #b8a0ce1f, 0 18px 40px #7652891f, 0 0 0 8px #ffffff40;
+}
+.lisso-dashboard.cx-dashboard .cx-hero.has-pills .cx-orbit-label {
+    background: #fffcf9d1;
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    backdrop-filter: blur(14px) saturate(1.4);
+    box-shadow: 0 12px 30px #6f4c821c, inset 0 1px #fff;
+}
+.lisso-dashboard.cx-dashboard .cx-hero.has-pills .cx-orbit-label.label-stock { background: #faf5dfd6; }
+.lisso-dashboard.cx-dashboard .cx-hero.has-pills .cx-orbit-caption {
+    z-index: 2;
+    width: max-content;
+    max-width: 100%;
+    margin-inline: auto;
+    padding: 3px 11px;
+    border-radius: 999px;
+    background: #fffcf9c7;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+/* SplitText masks: room for descenders under the tight display line-height. */
+.lisso-dashboard.cx-dashboard :is(.cx-word-mask, .cx-char-mask) { padding-bottom: .14em; margin-bottom: -.14em; vertical-align: top; }
+.lisso-dashboard.cx-dashboard .cx-gradient-text.is-split {
+    background: none;
+    -webkit-text-fill-color: currentColor;
+    animation: none;
+}
+.lisso-dashboard.cx-dashboard .cx-gradient-text.is-split .cx-word {
+    color: #785b8d;
+    background-image: linear-gradient(105deg, #58426d, #8b6391 36%, #72598c 60%, #58426d);
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Scroll-spun decorations need a box to transform. */
+.lisso-dashboard.cx-dashboard .ld-mini-orbit { display: inline-block; }
+
+/* Magnetic controls are moved by GSAP; keep CSS transitions to colour only. */
+.cx-motion-ready body.lisso-dashboard.cx-dashboard .ld-main .cx-magnetic {
+    transition-property: background-color, border-color, color;
+}
+
+/* Scroll progress. */
+.lisso-dashboard.cx-dashboard .cx-scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1050;
+    height: 3px;
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    background: linear-gradient(90deg, #8b70a8, #e8907b 55%, #f1cd5b);
+    pointer-events: none;
+}
+
+/* Capsule band: the page's own figures ride a wave through a light glass band, each figure a
+   two-tone medicine capsule. It duplicates on-page data, so it is aria-hidden. */
+.lisso-dashboard.cx-dashboard .cx-marquee {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    margin: 0 0 30px;
+    border: 1px solid #fff;
+    border-radius: 34px;
+    background: linear-gradient(115deg, #fffdfae6, #fcf6ffcc 55%, #fffaf0d9);
+    box-shadow: inset 0 1px #fff, inset 0 -1px #e9dcef, 0 22px 50px #6f4c8212, 0 3px 8px #6f4c820a;
+    overflow: hidden;
+    overflow: clip;
+    user-select: none;
+}
+/* Drifting pastel aurora behind the capsules. */
+.lisso-dashboard.cx-dashboard .cx-marquee::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: -40% -10%;
+    background:
+        radial-gradient(closest-side at 18% 50%, #e4d3f7 0, transparent 100%),
+        radial-gradient(closest-side at 46% 40%, #fbe9b0b3 0, transparent 100%),
+        radial-gradient(closest-side at 72% 60%, #fbd5ccb3 0, transparent 100%),
+        radial-gradient(closest-side at 92% 45%, #cdeedd 0, transparent 100%);
+    background-size: 60% 100%, 50% 90%, 55% 100%, 45% 90%;
+    background-repeat: no-repeat;
+    opacity: .85;
+    animation: cx-aurora 16s ease-in-out infinite alternate;
+    pointer-events: none;
+}
+/* Holographic glint sweeping across the glass. */
+.lisso-dashboard.cx-dashboard .cx-marquee::after {
+    content: '';
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    background: linear-gradient(100deg, transparent 38%, #ffffffa6 48%, #ffffff00 58%) no-repeat;
+    background-size: 55% 100%;
+    background-position: -120% 0;
+    animation: cx-glint 7s cubic-bezier(.45, 0, .2, 1) infinite;
+    pointer-events: none;
+}
+.lisso-dashboard.cx-dashboard .cx-mq-badge {
+    position: relative;
+    z-index: 3;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: 9px;
+    margin: 0 4px 0 20px;
+    padding: 9px 14px;
+    border: 1px solid #fff;
+    border-radius: 999px;
+    background: #ffffffd9;
+    box-shadow: 0 6px 16px #6f4c8214;
+    color: #5d4a6c;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+.lisso-dashboard.cx-dashboard .cx-mq-live {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #5fbf8f;
+    animation: cx-mq-pulse 2.4s ease-out infinite;
+}
+.lisso-dashboard.cx-dashboard .cx-marquee-row {
+    --cx-mq-fade: 70px;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex: 1 1 auto;
+    min-width: 0;   /* the row must not grow with its cloned content */
+    padding: 32px 0;   /* head-room for the wave and hover zoom */
+    overflow: hidden;
+    overflow: clip;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 var(--cx-mq-fade), #000 calc(100% - var(--cx-mq-fade)), transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 var(--cx-mq-fade), #000 calc(100% - var(--cx-mq-fade)), transparent);
+}
+.lisso-dashboard.cx-dashboard .cx-marquee-track { position: relative; display: flex; flex: none; will-change: transform; }
+.lisso-dashboard.cx-dashboard .cx-marquee-group {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: clamp(18px, 2.4vw, 34px);
+    padding-right: clamp(18px, 2.4vw, 34px);
+}
+
+/* Capsule: coloured cap (icon + label) and cream body (value), with gloss and a soft coloured glow. */
+.lisso-dashboard.cx-dashboard .cx-cap {
+    --cap-light: #e9dcf8; --cap: #c9b1e8; --cap-deep: #a688cf; --cap-ink: #34244a; --cap-glow: #9c7cc766;
+    position: relative;
+    display: inline-flex;
+    flex: none;
+    align-items: stretch;
+    height: 60px;
+    border-radius: 999px;
+    box-shadow: 0 14px 24px -10px var(--cap-glow), 0 2px 5px #4a305a14;
+    white-space: nowrap;
+    will-change: transform;
+}
+.lisso-dashboard.cx-dashboard .cx-cap.is-mint { --cap-light: #e2f6ea; --cap: #b4e2c9; --cap-deep: #86c5a5; --cap-ink: #1d4532; --cap-glow: #6fb39366; }
+.lisso-dashboard.cx-dashboard .cx-cap.is-yellow { --cap-light: #fff3c6; --cap: #f6db7d; --cap-deep: #e2ba45; --cap-ink: #4b3a0f; --cap-glow: #d9ac2f66; }
+.lisso-dashboard.cx-dashboard .cx-cap.is-coral { --cap-light: #ffe3d9; --cap: #f7b8a6; --cap-deep: #e5907a; --cap-ink: #552417; --cap-glow: #d9786266; }
+.lisso-dashboard.cx-dashboard .cx-cap.is-rose { --cap-light: #ffe4ec; --cap: #f5bccd; --cap-deep: #e195ae; --cap-ink: #561f33; --cap-glow: #d77d9a66; }
+.lisso-dashboard.cx-dashboard .cx-cap.is-periwinkle { --cap-light: #e6e9ff; --cap: #c1c7f5; --cap-deep: #9aa2e1; --cap-ink: #262c5c; --cap-glow: #8890d866; }
+.lisso-dashboard.cx-dashboard .cx-cap-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 16px 0 22px;
+    border-radius: 999px 0 0 999px;
+    background: linear-gradient(180deg, var(--cap-light), var(--cap) 52%, var(--cap-deep));
+    box-shadow: inset 0 -7px 12px #2a173514, inset 0 2px 1px #ffffffb3, inset -1px 0 #ffffff80;
+    color: var(--cap-ink);
+    font-size: 9.5px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+}
+.lisso-dashboard.cx-dashboard .cx-cap-tag svg { width: 15px; height: 15px; flex-shrink: 0; stroke-width: 2.2; }
+.lisso-dashboard.cx-dashboard .cx-cap-value {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 24px 0 16px;
+    border-radius: 0 999px 999px 0;
+    background: linear-gradient(180deg, #ffffff, #fdf9f4 50%, #ece2ea);
+    box-shadow: inset 0 -7px 12px #2a17350f, inset 0 2px 1px #fff, inset 2px 0 3px #2a173512;
+    color: #2d2335;
+    font-size: clamp(19px, 1.9vw, 26px);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -.035em;
+    font-variant-numeric: tabular-nums;
+}
+.lisso-dashboard.cx-dashboard .cx-cap::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 16px;
+    right: 16px;
+    height: 34%;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #ffffffcc, #ffffff00);
+    pointer-events: none;
+}
+/* Round scored tablets roll between capsules. */
+.lisso-dashboard.cx-dashboard .cx-tab {
+    position: relative;
+    display: inline-block;
+    flex: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 34% 28%, #fff 0 22%, #f8f2ee 48%, #e2d6de 100%);
+    box-shadow: inset 0 -3px 5px #2a17351a, 0 6px 12px -4px #6f4c8255;
+    will-change: transform;
+}
+.lisso-dashboard.cx-dashboard .cx-tab::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 4px;
+    right: 4px;
+    height: 1.5px;
+    margin-top: -.75px;
+    border-radius: 2px;
+    background: #cdbfcb;
+    box-shadow: 0 1px #fff;
+}
+@keyframes cx-aurora {
+    0% { background-position: 0% 50%, 30% 40%, 70% 60%, 100% 40%; }
+    100% { background-position: 30% 40%, 70% 60%, 30% 45%, 75% 55%; }
+}
+@keyframes cx-glint {
+    0%, 55% { background-position: -120% 0; }
+    100% { background-position: 260% 0; }
+}
+@keyframes cx-mq-pulse {
+    0% { box-shadow: 0 0 0 0 #5fbf8f80; }
+    70%, 100% { box-shadow: 0 0 0 8px #5fbf8f00; }
+}
+
+@media (max-width: 768px) {
+    .lisso-dashboard.cx-dashboard .cx-marquee { margin-bottom: 22px; border-radius: 28px; }
+    .lisso-dashboard.cx-dashboard .cx-marquee-row { padding: 24px 0; }
+    .lisso-dashboard.cx-dashboard .cx-cap { height: 52px; }
+    .lisso-dashboard.cx-dashboard .cx-cap-tag { padding: 0 12px 0 17px; font-size: 8.5px; }
+    .lisso-dashboard.cx-dashboard .cx-cap-value { padding: 0 19px 0 12px; }
+}
+@media (max-width: 600px) {
+    .lisso-dashboard.cx-dashboard .cx-mq-badge { display: none; }
+    .lisso-dashboard.cx-dashboard .cx-marquee-row { --cx-mq-fade: 44px; }
+}
+
+/* Print and forced colours always show the finished, static page. */
+@media print {
+    .lisso-dashboard.cx-dashboard :is(.cx-pills, .cx-marquee, .cx-scroll-progress) { display: none !important; }
+    .lisso-dashboard.cx-dashboard :is(.cx-m, .cx-word, .cx-char, .cx-word-mask, .cx-char-mask) {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+    }
+}
+@media (forced-colors: active) {
+    .lisso-dashboard.cx-dashboard .cx-pills { display: none; }
+    .lisso-dashboard.cx-dashboard .cx-hero.has-pills :is(.cx-orbit-ring, .cx-orbit-star4) { display: block; }
+    .lisso-dashboard.cx-dashboard .cx-gradient-text.is-split .cx-word { background: none; color: CanvasText; -webkit-text-fill-color: currentColor; }
+}
