@@ -83,9 +83,20 @@ $recent_txns = $conn->query(
     <link rel="stylesheet" href="css/style.css?v=<?php echo filemtime(__DIR__ . '/css/style.css'); ?>">
     <link rel="stylesheet" href="css/lisso-dashboard.css?v=<?php echo filemtime(__DIR__ . '/css/lisso-dashboard.css'); ?>">
     <script defer src="js/vendor/apexcharts-3.45.2.min.js"></script>
+    <script>
+        // Motion guard: hide the dashboard body until js/dashboard-motion.js has set its first frame.
+        (function () {
+            var root = document.documentElement;
+            try { if (matchMedia('(prefers-reduced-motion: reduce)').matches || localStorage.getItem('farms.motion') === 'paused') return; } catch (e) {}
+            root.classList.add('cx-motion');
+            setTimeout(function () { if (!root.classList.contains('cx-motion-ready')) root.classList.remove('cx-motion'); }, 3000);
+        })();
+    </script>
+    <style>.cx-motion:not(.cx-motion-ready) .ld-main { opacity: 0; }</style>
 </head>
 <body class="lisso-dashboard cx-dashboard">
     <?php include 'sidebar.php'; ?>
+    <link rel="stylesheet" href="css/dashboard-motion.css?v=<?php echo filemtime(__DIR__ . '/css/dashboard-motion.css'); ?>">
 
     <main class="main-content ld-main">
         <header class="ld-greeting">
@@ -123,6 +134,21 @@ $recent_txns = $conn->query(
             <article class="cx-kpi-card is-lilac"><span class="cx-kpi-icon"><i data-lucide="trending-up" aria-hidden="true"></i></span><span class="cx-kpi-label"><?php echo date('F'); ?> sales</span><strong class="cx-kpi-value"><?php echo formatCurrency($current_month_sales); ?></strong><span class="cx-kpi-foot">Month to date · Recorded sales</span></article>
             <article class="cx-kpi-card is-yellow"><span class="cx-kpi-icon"><i data-lucide="boxes" aria-hidden="true"></i></span><span class="cx-kpi-label">Inventory at cost</span><strong class="cx-kpi-value"><?php echo formatCurrency($inventory_snapshot['cost_value']); ?></strong><span class="cx-kpi-foot">Current quantities × purchase rates</span></article>
             <article class="cx-kpi-card is-mint"><span class="cx-kpi-icon"><i data-lucide="wallet" aria-hidden="true"></i></span><span class="cx-kpi-label">Open supplier bills</span><strong class="cx-kpi-value"><?php echo $unpaid_bill_count; ?></strong><span class="cx-kpi-foot">Bills with a remaining balance</span></article>
+        </section>
+
+        <!-- Kinetic strip of figures already shown on this page; decorative, so hidden from assistive tech. -->
+        <section class="cx-marquee" aria-hidden="true">
+            <span class="cx-mq-badge"><span class="cx-mq-live"></span>Snapshot · <?php echo date('H:i'); ?></span>
+            <div class="cx-marquee-row"><div class="cx-marquee-track"><div class="cx-marquee-group">
+                <span class="cx-cap is-mint"><span class="cx-cap-tag"><i data-lucide="receipt"></i>Sold today</span><span class="cx-cap-value"><?php echo formatCurrency($today_sales); ?></span></span><span class="cx-tab"></span>
+                <span class="cx-cap is-lilac"><span class="cx-cap-tag"><i data-lucide="trending-up"></i><?php echo date('F'); ?> sales</span><span class="cx-cap-value"><?php echo formatCurrency($current_month_sales); ?></span></span><span class="cx-tab"></span>
+                <span class="cx-cap is-rose"><span class="cx-cap-tag"><i data-lucide="heart-pulse"></i>Stock health</span><span class="cx-cap-value"><?php echo $stock_health === null ? '—' : $stock_health . '%'; ?></span></span><span class="cx-tab"></span>
+                <span class="cx-cap is-yellow"><span class="cx-cap-tag"><i data-lucide="package"></i>To restock</span><span class="cx-cap-value"><?php echo $low_stock_count; ?> <?php echo $low_stock_count === 1 ? 'product' : 'products'; ?></span></span><span class="cx-tab"></span>
+                <span class="cx-cap is-coral"><span class="cx-cap-tag"><i data-lucide="file-clock"></i>Open bills</span><span class="cx-cap-value"><?php echo $unpaid_bill_count; ?></span></span><span class="cx-tab"></span>
+                <span class="cx-cap is-periwinkle"><span class="cx-cap-tag"><i data-lucide="wallet"></i>Supplier balance</span><span class="cx-cap-value"><?php echo formatCurrency($total_balance); ?></span></span><span class="cx-tab"></span>
+                <span class="cx-cap is-mint"><span class="cx-cap-tag"><i data-lucide="pill"></i>Products</span><span class="cx-cap-value"><?php echo number_format($total_products); ?></span></span><span class="cx-tab"></span>
+                <span class="cx-cap is-lilac"><span class="cx-cap-tag"><i data-lucide="users"></i>Customers</span><span class="cx-cap-value"><?php echo number_format($total_customers); ?></span></span><span class="cx-tab"></span>
+            </div></div></div>
         </section>
 
         <div class="ld-grid">
@@ -260,8 +286,16 @@ $recent_txns = $conn->query(
         <footer class="cx-dashboard-footer"><p>Built around your business, not the noise. Figures reflect the database when this page loaded.<?php echo $has_demo_records ? ' Demo records are included in these totals.' : ''; ?></p><a href="inventory_report_pdf.php" class="cx-secondary-action" target="_blank" rel="noopener">Open inventory print preview <i data-lucide="arrow-up-right" aria-hidden="true"></i></a></footer>
     </main>
 
+    <!-- Motion runs before the CDN script so a slow CDN cannot hold the page behind the motion guard. -->
+    <script defer src="js/vendor/gsap-3.15.0.min.js"></script>
+    <script defer src="js/vendor/gsap-scrolltrigger-3.15.0.min.js"></script>
+    <script defer src="js/vendor/gsap-splittext-3.15.0.min.js"></script>
+    <script defer src="js/vendor/gsap-scrambletext-3.15.0.min.js"></script>
+    <script defer src="js/vendor/lenis-1.3.27.min.js"></script>
+    <script defer src="js/dashboard-motion.js?v=<?php echo filemtime(__DIR__ . '/js/dashboard-motion.js'); ?>"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script type="application/json" id="cxDashboardData"><?php echo json_encode($dashboard_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT); ?></script>
     <script defer src="js/dashboard-studio.js?v=<?php echo filemtime(__DIR__ . '/js/dashboard-studio.js'); ?>"></script>
+    <script type="module" src="js/dashboard-pills.js?v=<?php echo filemtime(__DIR__ . '/js/dashboard-pills.js'); ?>"></script>
 </body>
 </html>

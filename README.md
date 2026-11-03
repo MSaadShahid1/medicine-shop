@@ -20,6 +20,7 @@ An inventory and billing system for a medicine shop, built with plain PHP and My
 - MySQL / MariaDB
 - Bootstrap 5, Font Awesome, jQuery (via CDN)
 - ApexCharts and Lucide icons (bundled in `js/vendor/`)
+- Dashboard motion: GSAP with ScrollTrigger, SplitText and ScrambleText, Lenis smooth scrolling, and a trimmed Three.js build for the 3D pill hero (all bundled in `js/vendor/` with their licenses). It turns off with the system's reduced-motion setting or the "Pause motion" control in the page finder (Ctrl/Cmd + K)
 
 There is no build step and no package manager.
 

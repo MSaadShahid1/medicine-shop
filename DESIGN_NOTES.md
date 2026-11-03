@@ -64,3 +64,14 @@ The current dashboard adds a pearlescent cinematic cover, data-derived orbital s
 Motion respects device reduced-motion settings, can be paused in the page finder, and stops when the document is hidden. Storage is optional: blocked localStorage does not prevent navigation. No custom cursor, sound, flashes, hidden-on-load figures, or continuous canvas/JavaScript particle loop was added. Effects and modal controls are excluded from print, and dashboard paper output uses exact tabular chart data rather than duplicating the animated view.
 
 New KPIs/insights are read-only queries. Figures reflect the database when the page loaded; they are not presented as live polling. Demo records are explicitly acknowledged in the dashboard footer. No API keys were accessed, no paid AI integration was added, and this upgrade does not change database records or the standalone invoice/report templates.
+
+## Dashboard motion layer
+
+Added on 3 November 2026. Motion references: gsap.com (kinetic split type, scroll-triggered arrivals), lenis.dev (smooth, scroll-linked motion) and a React Three Fiber physics-cluster sandbox (glossy bodies drawn to a centre and pushed by the cursor). The palette, layout and every figure are unchanged.
+
+- Hero: glossy two-tone capsules and chalky tablets (WebGL) cluster around the stock-health core, which becomes frosted glass. The cursor sweeps them aside, a click on empty hero space bursts them outward, and they wobble with scroll speed.
+- Load-in: the title rises letter by letter, kickers scramble into place, the health ring draws while its percentage counts up, and KPI cards flip up as their values count to the exact server figure.
+- Scroll: Lenis smooth scrolling, cards arrive with masked word-by-word headings, rows, pills and counters; the supplier-balance bars wave; a light glass capsule band (drifting pastel aurora, holographic glint) carries the page's real figures as two-tone medicine capsules with rolling tablets between them; they ride a travelling wave that grows with scroll speed, the belt reverses with scroll direction, and hovering slows it and magnifies the capsule under the cursor; a progress line runs along the top.
+- Hover: primary buttons are magnetic and KPI/insight cards tilt in 3D.
+
+Turn it off per device with "Pause motion" in the page finder (Ctrl/Cmd + K); the system reduced-motion setting also disables it. Print always shows the finished, static page.

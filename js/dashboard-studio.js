@@ -6,7 +6,6 @@
     const reduced = matchMedia('(prefers-reduced-motion: reduce)');
     const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
     const motionAllowed = () => !reduced.matches && body.dataset.wxMotion !== 'paused' && !document.hidden;
-    const activeAnimations = new Set();
     const formatMoney = value => 'Rs. ' + Number(value || 0).toLocaleString('en-PK', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
     // All original content stays visible if JavaScript or the chart CDN is unavailable.
@@ -109,26 +108,21 @@
                     legend: { position: 'top', horizontalAlign: 'left', fontSize: '11px', markers: { radius: 12 } },
                     tooltip: { y: { formatter: formatMoney } }
                 });
-                Promise.resolve(chart.render()).then(() => { chartReady = true; fallback.open = false; applyPeriod(); }).catch(showFallback);
+                const renderChart = () => Promise.resolve(chart.render()).then(() => { chartReady = true; fallback.open = false; applyPeriod(); }).catch(showFallback);
+                // Draw on arrival so the line animation is seen rather than spent off screen.
+                if (motionAllowed() && 'IntersectionObserver' in window) {
+                    const chartObserver = new IntersectionObserver(entries => {
+                        if (!entries.some(entry => entry.isIntersecting)) return;
+                        chartObserver.disconnect();
+                        renderChart();
+                    }, { rootMargin: '0px 0px -10% 0px' });
+                    chartObserver.observe(chartElement.closest('.ld-chart-card') || chartElement);
+                } else renderChart();
             } catch (_) { showFallback(); }
         }
     }
 
-    // One-time scroll arrivals, not a continuous page animation loop.
-    const revealElements = document.querySelectorAll('.cx-kpi-card, .ld-card, .cx-insight-panel, .cx-insight-tile');
-    if ('IntersectionObserver' in window) {
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (!entry.isIntersecting) return;
-                observer.unobserve(entry.target);
-                if (!motionAllowed() || typeof entry.target.animate !== 'function') return;
-                const animation = entry.target.animate([{ opacity: .72, transform: 'translateY(10px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 520, easing: 'cubic-bezier(.2,.7,.25,1)' });
-                activeAnimations.add(animation);
-                animation.finished.catch(() => {}).finally(() => activeAnimations.delete(animation));
-            });
-        }, { threshold: .08 });
-        revealElements.forEach(element => observer.observe(element));
-    }
+    // Scroll arrivals live in js/dashboard-motion.js (GSAP), which also settles them when motion is off.
 
     // Pointer paint is limited to one scheduled frame and one hovered card.
     let pointerFrame = 0;
@@ -157,11 +151,7 @@
         card.addEventListener('pointerleave', clearPointer, { passive: true });
     });
     function syncMotion() {
-        if (!motionAllowed() || printing) {
-            activeAnimations.forEach(animation => animation.cancel());
-            activeAnimations.clear();
-            clearPointer();
-        }
+        if (!motionAllowed() || printing) clearPointer();
     }
     window.addEventListener('workspace:preferences', syncMotion);
     document.addEventListener('visibilitychange', syncMotion);
