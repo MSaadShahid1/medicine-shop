@@ -2,6 +2,8 @@
 
 An inventory and billing system for a medicine shop, built with plain PHP and MySQL. It tracks suppliers, customers, products and stock, creates purchase and sales bills, records supplier payments, and prints invoices and inventory reports.
 
+**Live demo:** https://msaadshahid1.github.io/medicine-shop/ (read-only, fictional demo data; see [Live demo](#live-demo-github-pages))
+
 ## Features
 
 - **Dashboard** with sales vs. purchases over the last 3 or 6 months, stock health, supplier balances and recent transactions
@@ -58,6 +60,18 @@ OPENAI_API_KEY=your-key-here
 ```
 
 The key stays on the server and is never sent to the browser. `.htaccess` blocks direct access to `.env`, and the assistant only answers requests from the local machine.
+
+### Live demo (GitHub Pages)
+
+**https://msaadshahid1.github.io/medicine-shop/** is a read-only copy of the app with the fictional demo data. GitHub Pages cannot run PHP or MySQL, so `tools/build_static_demo.php` saves every page of a running copy as static HTML. Links, invoices, reports, the dashboard animations and the product search all work; saving, editing and deleting show a "read-only demo" notice instead, and the AI assistant is hidden.
+
+To rebuild it after changes, start the app, then run from the project folder:
+
+```powershell
+& 'C:\xampp\php\php.exe' tools/build_static_demo.php http://localhost/medicine-shop C:\path\to\medicine-shop-pages --repository=https://github.com/MSaadShahid1/medicine-shop
+```
+
+Commit the contents of that folder to the `gh-pages` branch and push it. The script refuses to export if any record is not labelled as demo data, so real business records cannot be published by accident.
 
 ## Project structure
 
